@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">LocateMyVehicle</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_map">Locate vehicle</string>
+    <string name="menu_nearby">Near by</string>
+    <string name="menu_parkingsign">Parking sign</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="delete_location">Delete Location</string>
+    <string name="save_location">Save location</string>
+    <string name="saved_locations">Saved locations</string>
+    <string name="get_back">Get back</string>
+    <string name="locate_me">Locate me</string>
+</resources>

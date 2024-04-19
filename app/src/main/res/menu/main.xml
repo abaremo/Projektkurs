@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/btnSaveLocation"
+        android:title="@string/save_location"
+        android:icon="@drawable/ic_save_location" />
+
+    <item
+        android:id="@+id/btnSaved"
+        android:title="@string/saved_locations"
+        android:icon="@drawable/ic_saved_location" />
+
+    <item
+        android:id="@+id/addParking"
+        android:title="" />
+
+    <item
+        android:id="@+id/btnGetBack"
+        android:title="@string/get_back"
+        android:icon="@drawable/ic_back" />
+
+    <item
+        android:id="@+id/btnPosition"
+        android:title="@string/locate_me"
+        android:icon="@drawable/ic_locate_me" />
+
+</menu>

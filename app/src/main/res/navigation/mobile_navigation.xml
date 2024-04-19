@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.locatemyvehicle.ui.home.HomeFragment"
+        android:label="@string/menu_map"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.example.locatemyvehicle.ui.nearby.NearbyFragment"
+        android:label="@string/menu_nearby"
+        tools:layout="@layout/fragment_nearby" >
+
+
+        <action
+            android:id="@+id/action_nearbyFragment_to_fuelFragment"
+            app:destination="@id/fuelFragment" />
+
+        <action
+            android:id="@+id/action_nearbyFragment_to_parkingFragment"
+            app:destination="@id/parkingFragment" />
+
+        <action
+            android:id="@+id/action_nearbyFragment_to_hotelFragment"
+            app:destination="@id/hotelFragment" />
+
+        <action
+            android:id="@+id/action_nearbyFragment_to_restaurantFragment"
+            app:destination="@id/restaurantFragment" />
+
+        <action
+            android:id="@+id/action_nearbyFragment_to_bicycleparkingFragment"
+            app:destination="@id/bicycleparkingFragment" />
+
+        <action
+            android:id="@+id/action_nearbyFragment_to_chargingstationFragment"
+            app:destination="@id/chargingstationFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_savedlocationFragment"
+            app:destination="@id/nav_home" />
+
+        <!-- Om du har andra fragment att navigera till, lägg till liknande action-taggar här -->
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/savedlocationFragment"
+        android:name="com.example.locatemyvehicle.ui.home.SavedLocationFragment"
+        android:label="Your Saved Locations"
+        tools:layout="@layout/fragment_saved_location" />
+
+    <fragment
+        android:id="@+id/fuelFragment"
+        android:name="com.example.locatemyvehicle.ui.nearby.FuelFragment"
+        android:label="Fuel Fragment"
+        tools:layout="@layout/fragment_fuel" />
+
+    <fragment
+        android:id="@+id/parkingFragment"
+        android:name="com.example.locatemyvehicle.ui.nearby.ParkingFragment"
+        android:label="Parking Fragment"
+        tools:layout="@layout/fragment_parking" />
+
+    <fragment
+        android:id="@+id/hotelFragment"
+        android:name="com.example.locatemyvehicle.ui.nearby.HotelFragment"
+        android:label="Hotel Fragment"
+        tools:layout="@layout/fragment_hotel" />
+
+    <fragment
+        android:id="@+id/restaurantFragment"
+        android:name="com.example.locatemyvehicle.ui.nearby.RestaurantFragment"
+        android:label="Restaurant Fragment"
+        tools:layout="@layout/fragment_restaurant" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.locatemyvehicle.ui.parkingsings.ParkingSignsFragment"
+        android:label="@string/menu_parkingsign"
+        tools:layout="@layout/fragment_parkingsign" />
+
+    <fragment
+        android:id="@+id/bicycleparkingFragment"
+        android:name="com.example.locatemyvehicle.ui.nearby.BicycleParkingFragment"
+        android:label="Bicycle parking Fragment"
+        tools:layout="@layout/fragment_bicycleparking" />
+    <fragment
+        android:id="@+id/chargingstationFragment"
+        android:name="com.example.locatemyvehicle.ui.nearby.ChargingStationFragment"
+        android:label="Charging station Fragment"
+        tools:layout="@layout/fragment_chargingstation" />
+
+    <!-- Lägg till andra fragment här om det behövs -->
+
+</navigation>
