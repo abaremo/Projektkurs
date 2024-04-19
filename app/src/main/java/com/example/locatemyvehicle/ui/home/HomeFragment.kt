@@ -166,7 +166,7 @@ class HomeFragment : Fragment() {
 
     private fun addMarker(geoPoint: GeoPoint) {
         if (shouldSaveLocation) {
-            savedLocations.add(geoPoint)
+            //savedLocations.add(geoPoint)
             //Toast.makeText(requireContext(), "Location saved", Toast.LENGTH_SHORT).show()
             //shouldSaveLocation = false // false om man bara kan lägga till en markör
         }
