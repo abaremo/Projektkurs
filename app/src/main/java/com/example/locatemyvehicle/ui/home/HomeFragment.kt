@@ -129,6 +129,7 @@ class HomeFragment : Fragment() {
         mapEventsOverlay = MapEventsOverlay(object : MapEventsReceiver {
             override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean {
                 if (p != null) {
+                    binding.mapOSM.overlays.removeAll { it is Marker } //gör att det inte blir markörer överallt
                     addMarker(p)
                     return true
                 }
