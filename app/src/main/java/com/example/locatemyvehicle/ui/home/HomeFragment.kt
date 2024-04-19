@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.locatemyvehicle.R
 import com.example.locatemyvehicle.databinding.FragmentHomeBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -89,8 +90,8 @@ class HomeFragment : Fragment() {
                     true
                 }
 
-                R.id.btnSaved -> {
 
+                R.id.btnSaved -> {
                         val bundle = Bundle().apply {
                             putStringArray(
                                 "savedLocations",
@@ -99,13 +100,12 @@ class HomeFragment : Fragment() {
                             )
                         }
                         findNavController().navigate(R.id.savedlocationFragment, bundle)
+
                     true
                 }
 
-                R.id.addParking -> {
-// Lägg till hantering för knappen "Add parking" här
-                    true
-                }
+
+
 
                 R.id.btnGetBack -> {
 // Lägg till hantering för knappen "Get back" här
@@ -114,6 +114,8 @@ class HomeFragment : Fragment() {
 
                     true
                 }
+
+
 
                 R.id.btnPosition -> {
 // Lägg till hantering för knappen "Position" här
@@ -126,12 +128,14 @@ class HomeFragment : Fragment() {
             }
         }
 
+
         mapEventsOverlay = MapEventsOverlay(object : MapEventsReceiver {
             override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean {
-                if (p != null) {
-                    binding.mapOSM.overlays.removeAll { it is Marker } //gör att det inte blir markörer överallt
+                if ( p != null && shouldSaveLocation) {
+                    binding.mapOSM.overlays.removeAll{it is Marker}
                     addMarker(p)
                     return true
+
                 }
                 return false
             }
@@ -142,7 +146,18 @@ class HomeFragment : Fragment() {
         } )
 
         binding.mapOSM.overlays.add(0, mapEventsOverlay)
+
+
+        val fabButton: FloatingActionButton = view.findViewById(R.id.addMarkers) // Ersätt YOUR_FAB_ID med den faktiska id:en för din FloatingActionButton
+        fabButton.setOnClickListener {
+            shouldSaveLocation = true
+        }
+        //måste lägga till en else för att avsluta funktionen vid klick på annan knapp
+
+
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main, menu) // Ersätt "your_menu_file_name" med rätt filnamn för din meny
@@ -152,8 +167,8 @@ class HomeFragment : Fragment() {
     private fun addMarker(geoPoint: GeoPoint) {
         if (shouldSaveLocation) {
             savedLocations.add(geoPoint)
-            Toast.makeText(requireContext(), "Location saved", Toast.LENGTH_SHORT).show()
-            shouldSaveLocation = false // Reset the flag
+            //Toast.makeText(requireContext(), "Location saved", Toast.LENGTH_SHORT).show()
+            //shouldSaveLocation = false // false om man bara kan lägga till en markör
         }
         val marker = Marker(binding.mapOSM)
         marker.position = geoPoint
@@ -223,9 +238,6 @@ class HomeFragment : Fragment() {
                 if (myLocation != null) {
                     binding.mapOSM.controller.animateTo(myLocation)
                     binding.mapOSM.controller.setZoom(17)
-                } else {
-// Om användarens plats inte är tillgänglig, hantera det här
-                    Toast.makeText(fragment.requireContext(), "Användarens plats är inte tillgänglig.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
