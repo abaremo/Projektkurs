@@ -8,12 +8,23 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.locatemyvehicle.R
 
-class SavedLocationsAdapter(private val dataSet: List<String>) :
+class SavedLocationsAdapter(private val dataSet: List<String>, private val onItemClick: (String) -> Unit) :
     RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewLocationName: TextView = view.findViewById(R.id.textViewLocationName)
         //val btnDeleteLocation: ImageButton = view.findViewById(R.id.btnDeleteLocation)
+
+        init {
+            // Sätt en klicklyssnare för varje sparad plats
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val location = dataSet[position]
+                    onItemClick(location)
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

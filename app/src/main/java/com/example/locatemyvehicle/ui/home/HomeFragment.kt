@@ -1,7 +1,5 @@
 package com.example.locatemyvehicle.ui.home
 
-import android.content.pm.PackageManager
-import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,13 +7,12 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.locatemyvehicle.R
 import com.example.locatemyvehicle.databinding.FragmentHomeBinding
@@ -37,7 +34,6 @@ import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import org.osmdroid.wms.BuildConfig
-import java.util.Locale
 
 class HomeFragment : Fragment() {
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
@@ -48,8 +44,11 @@ class HomeFragment : Fragment() {
     private lateinit var mapEventsOverlay: MapEventsOverlay
     private lateinit var lastMarker: Marker
     private var savedParkingPosition: GeoPoint? = null
-    private val savedLocations = mutableListOf<GeoPoint>()
+    private val tempCoordinateList = mutableListOf<GeoPoint>()
     private var shouldSaveLocation = false
+    private lateinit var savedLocationsAdapter: SavedLocationsAdapter
+    private val viewModel: SharedViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +56,13 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        savedLocations.clear()
+        tempCoordinateList.clear()
+
+        // Kontrollera om det finns platsinformation i bundle
+        arguments?.getString("location")?.let { location ->
+            // Visa platsen på kartan med den mottagna platsinformationen
+            showLocationOnMap(location)
+        }
         return binding.root
     }
 
@@ -70,6 +75,16 @@ class HomeFragment : Fragment() {
         getLocation(true)
         setHasOptionsMenu(true)
 
+        // Använd savedLocationsList från viewmodelen här
+        val savedLocations = viewModel.savedLocationsList
+
+        savedLocationsAdapter = SavedLocationsAdapter(savedLocations) { location ->
+            // Hantera klick på sparad plats
+            // Exempel: Visa platsen på kartan i HomeFragment
+            showLocationOnMap(location)
+        }
+
+
         // Sätt klicklyssnare för hela verktygsfältet
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -77,7 +92,7 @@ class HomeFragment : Fragment() {
                     if (::lastMarker.isInitialized) {
 // Hämta den senaste markörens koordinater och lägg till i listan
                         val lastMarkerPosition = lastMarker.position
-                        savedLocations.add(lastMarkerPosition)
+                        tempCoordinateList.add(lastMarkerPosition)
                         Toast.makeText(requireContext(), "Location saved", Toast.LENGTH_SHORT)
                             .show()
                     } else {
@@ -90,12 +105,11 @@ class HomeFragment : Fragment() {
                     true
                 }
 
-
                 R.id.btnSaved -> {
                         val bundle = Bundle().apply {
                             putStringArray(
                                 "savedLocations",
-                                savedLocations.map { "${it.latitude}, ${it.longitude}" }
+                                tempCoordinateList.map { "${it.latitude}, ${it.longitude}" }
                                     .toTypedArray()
                             )
                         }
@@ -104,9 +118,6 @@ class HomeFragment : Fragment() {
                     true
                 }
 
-
-
-
                 R.id.btnGetBack -> {
 // Lägg till hantering för knappen "Get back" här
                     binding.mapOSM.controller.animateTo(startPoint)
@@ -114,8 +125,6 @@ class HomeFragment : Fragment() {
 
                     true
                 }
-
-
 
                 R.id.btnPosition -> {
 // Lägg till hantering för knappen "Position" här
@@ -157,6 +166,49 @@ class HomeFragment : Fragment() {
 
     }
 
+    // Funktion för att visa platsen på kartan i HomeFragment
+    private fun showLocationOnMap(location: String) {
+        // Dela upp strängen vid bindestrecket
+        val parts = location.split(" - ")
+        if (parts.size == 2) {
+            val placeName = parts[0] // Namnet på platsen
+            val coordinates = parts[1].split(", ") // Dela upp koordinaterna
+            if (coordinates.size == 2) {
+                try {
+                    val latitude = coordinates[0].toDouble() // Latitude-koordinat
+                    val longitude = coordinates[1].toDouble() // Longitude-koordinat
+                    val savedLocation = GeoPoint(latitude, longitude)
+
+                    // Lägg till markören för den sparade platsen på kartan
+                    addSavedLocationIcon(savedLocation)
+
+                    // Flytta kartan till den sparade platsen och zooma in
+                    binding.mapOSM.controller.setCenter(savedLocation)
+                    binding.mapOSM.controller.setZoom(17.0)
+                } catch (e: NumberFormatException) {
+                    // Hantera felaktiga koordinater
+                    Log.e("NumberFormatException", "Invalid coordinates format: $location")
+                }
+            } else {
+                // Om koordinaterna inte är i rätt format
+                Log.e("InvalidCoordinatesFormat", "Invalid coordinates format: $location")
+            }
+        } else {
+            // Om strängen inte är i rätt format
+            Log.e("InvalidLocationFormat", "Invalid location format: $location")
+        }
+    }
+
+    // Funktion för att lägga till ikonen för den sparade platsen på kartan
+    private fun addSavedLocationIcon(savedLocation: GeoPoint) {
+        val marker = Marker(binding.mapOSM)
+        marker.position = savedLocation
+        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+        marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_saved_location_icon)
+        binding.mapOSM.overlays.add(marker)
+        binding.mapOSM.invalidate()
+    }
+
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -166,7 +218,7 @@ class HomeFragment : Fragment() {
 
     private fun addMarker(geoPoint: GeoPoint) {
         if (shouldSaveLocation) {
-            savedLocations.add(geoPoint)
+            tempCoordinateList.add(geoPoint)
             //Toast.makeText(requireContext(), "Location saved", Toast.LENGTH_SHORT).show()
             //shouldSaveLocation = false // false om man bara kan lägga till en markör
         }
