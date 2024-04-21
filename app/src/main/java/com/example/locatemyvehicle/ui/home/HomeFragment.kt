@@ -1,5 +1,6 @@
 package com.example.locatemyvehicle.ui.home
 
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -105,6 +106,21 @@ class HomeFragment : Fragment() {
                     true
                 }
 
+                R.id.btnRoad -> {
+                    // Klicklyssnare för knappen "Road"
+                    if (::lastMarker.isInitialized) {
+                        // Om sista markören är initierad, bygg vägen
+                        buildRoad(lastMarker.position)
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "No location saved",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    true // Returnera true för att indikera att knappen har hanterats
+                }
+
                 R.id.btnSaved -> {
                         val bundle = Bundle().apply {
                             putStringArray(
@@ -114,7 +130,7 @@ class HomeFragment : Fragment() {
                             )
                         }
                         findNavController().navigate(R.id.savedlocationFragment, bundle)
-
+                    shouldSaveLocation = false
                     true
                 }
 
@@ -161,8 +177,10 @@ class HomeFragment : Fragment() {
         fabButton.setOnClickListener {
             shouldSaveLocation = true
         }
-        //måste lägga till en else för att avsluta funktionen vid klick på annan knapp
 
+        binding.btnToggleMap.setOnClickListener {
+            toggleMapType(view)
+        }
 
     }
 
@@ -230,7 +248,7 @@ class HomeFragment : Fragment() {
         lastMarker = marker
         binding.mapOSM.invalidate()
 
-        buildRoad(marker.position)
+        //buildRoad(marker.position)
     }
 
 
@@ -238,6 +256,15 @@ class HomeFragment : Fragment() {
     private fun configurationMap() {
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
         Configuration.getInstance().osmdroidBasePath = requireActivity().filesDir
+    }
+    fun toggleMapType(view: View) {
+        if (binding.mapOSM.tileProvider.tileSource == TileSourceFactory.MAPNIK) {
+            // Byt till mörk karta
+            binding.mapOSM.setTileSource(TileSourceFactory.USGS_SAT)
+        } else {
+            // Byt till vanlig karta
+            binding.mapOSM.setTileSource(TileSourceFactory.MAPNIK)
+        }
     }
 
     private fun initMap() {

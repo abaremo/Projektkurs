@@ -24,6 +24,32 @@
 
     </org.osmdroid.views.MapView>
 
+    <ImageButton
+        android:id="@+id/btnToggleMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_layer"
+        android:background="@null"
+        android:onClick="toggleMapType"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_gravity="end|top"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addMarkers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="65dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/ic_parkinglocation"
+        android:tooltipText="Click on the map to add markers"
+        app:maxImageSize="40dp">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
@@ -46,17 +72,6 @@
 
 
     </com.google.android.material.bottomappbar.BottomAppBar>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addMarkers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/ic_parkinglocation"
-        app:layout_anchor="@id/bottomAppBar"
-        app:maxImageSize="40dp">
-
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 
 

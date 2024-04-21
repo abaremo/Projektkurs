@@ -11,10 +11,10 @@
         android:id="@+id/btnSaved"
         android:title="@string/saved_locations"
         android:icon="@drawable/ic_saved_location" />
-
     <item
-        android:id="@+id/addParking"
-        android:title="" />
+        android:id="@+id/btnRoad"
+        android:title="Build road"
+        android:icon="@drawable/street_svgrepo_com" />
 
     <item
         android:id="@+id/btnGetBack"
@@ -25,5 +25,7 @@
         android:id="@+id/btnPosition"
         android:title="@string/locate_me"
         android:icon="@drawable/ic_locate_me" />
+
+
 
 </menu>
