@@ -24,6 +24,15 @@
 
     </org.osmdroid.views.MapView>
 
+    <!-- Lägg till RecyclerView för sparade platser -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSavedLocations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
     <ImageButton
         android:id="@+id/btnToggleMap"
         android:layout_width="wrap_content"

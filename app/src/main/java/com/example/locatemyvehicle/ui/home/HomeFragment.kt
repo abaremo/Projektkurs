@@ -37,14 +37,14 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import org.osmdroid.wms.BuildConfig
 
 class HomeFragment : Fragment() {
-    private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
+    //private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
     private lateinit var binding: FragmentHomeBinding
     private lateinit var locationOverlay: MyLocationNewOverlay
     private val startPoint = GeoPoint(62.0, 16.0)
     val fragment = this
     private lateinit var mapEventsOverlay: MapEventsOverlay
     private lateinit var lastMarker: Marker
-    private var savedParkingPosition: GeoPoint? = null
+    //private var savedParkingPosition: GeoPoint? = null
     private val tempCoordinateList = mutableListOf<GeoPoint>()
     private var shouldSaveLocation = false
     private lateinit var savedLocationsAdapter: SavedLocationsAdapter
@@ -79,11 +79,21 @@ class HomeFragment : Fragment() {
         // Använd savedLocationsList från viewmodelen här
         val savedLocations = viewModel.savedLocationsList
 
-        savedLocationsAdapter = SavedLocationsAdapter(savedLocations) { location ->
+        savedLocationsAdapter = SavedLocationsAdapter(
+            savedLocations,
+            onItemClick = { location ->
             // Hantera klick på sparad plats
             // Exempel: Visa platsen på kartan i HomeFragment
             showLocationOnMap(location)
-        }
+        },
+            onRemoveClick = { position ->
+            // Hantera borttagning av sparad plats
+            // Exempel: Ta bort platsen från listan och uppdatera adaptern
+            removeSavedLocation(position)
+        })
+
+        // Tilldela adaptern till RecyclerView
+        binding.recyclerViewSavedLocations.adapter = savedLocationsAdapter
 
 
         // Sätt klicklyssnare för hela verktygsfältet
@@ -182,6 +192,11 @@ class HomeFragment : Fragment() {
             toggleMapType(view)
         }
 
+    }
+
+    private fun removeSavedLocation(position: Int) {
+        viewModel.removeSavedLocation(position)
+        savedLocationsAdapter.notifyDataSetChanged()
     }
 
     // Funktion för att visa platsen på kartan i HomeFragment

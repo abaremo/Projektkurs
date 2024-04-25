@@ -16,12 +16,9 @@ import com.example.locatemyvehicle.databinding.FragmentSavedLocationBinding
 
 
 class SavedLocationFragment : Fragment() {
-
-
-
     private lateinit var binding: FragmentSavedLocationBinding
     private val tempCoordinatesList = mutableListOf<String>()
-    private lateinit var adapter: SavedLocationsAdapter
+    private var adapter: SavedLocationsAdapter? = null
     private lateinit var sharedPreferences: SharedPreferences
     private val viewModel: SharedViewModel by activityViewModels()
 
@@ -33,29 +30,35 @@ class SavedLocationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSavedLocationBinding.inflate(inflater, container, false)
-
-        // Använd savedLocationsList från viewmodelen här
-        val savedLocations = viewModel.savedLocationsList
-
-
         // Initiera RecyclerView
         val recyclerView = binding.recyclerViewSavedLocations
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Skapa adaptern och tilldela den till RecyclerView
-        //adapter = SavedLocationsAdapter(savedLocationsList) // Anpassa parametern efter din adapterklass
-        // Skapa adaptern och tilldela den till RecyclerView med klicklyssnare
-
-// Skapa adaptern och tilldela den till RecyclerView med klicklyssnare
-        adapter = SavedLocationsAdapter(tempCoordinatesList) { location ->
-            // Hantera klick på sparad plats
-            // Exempel: Visa platsen på kartan i HomeFragment
-            showLocationOnMap(location)
-        }
-        recyclerView.adapter = adapter
+        val savedLocations = viewModel.savedLocationsList
 
         // Hämta SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("SavedLocations", Context.MODE_PRIVATE)
+
+        // Kontrollera om adaptern redan är instansierad innan du initialiserar en ny
+        if (adapter == null) {
+            //val savedLocations = viewModel.savedLocationsList
+            // Skapa adaptern och tilldela den till RecyclerView med klicklyssnare
+            adapter = SavedLocationsAdapter(
+                tempCoordinatesList,
+                { location ->
+                    // Hantera klick på sparad plats
+                    // Exempel: Visa platsen på kartan i HomeFragment
+                    showLocationOnMap(location)
+                },
+                { position ->
+                    // Hantera borttagning av platsen
+                    removeLocation(position)
+                }
+            )
+            recyclerView.adapter = adapter
+        }
+
+
 
         // Hämta sparade platser vid fragmentets skapande
         loadSavedLocations()
@@ -83,7 +86,7 @@ class SavedLocationFragment : Fragment() {
                 tempCoordinatesList.add(savedLocation)
 
                 //binding.recyclerViewSavedLocations.adapter = adapter
-                adapter.notifyDataSetChanged()
+                adapter?.notifyDataSetChanged()
 
                 // Spara den nya listan med platser till SharedPreferences
                 saveLocationsToSharedPreferences()
@@ -110,6 +113,14 @@ class SavedLocationFragment : Fragment() {
         return binding.root
     }
 
+    // Funktion för att ta bort en sparad plats
+    private fun removeLocation(position: Int) {
+        tempCoordinatesList.removeAt(position)
+        adapter?.notifyDataSetChanged()
+        saveLocationsToSharedPreferences() // Uppdatera SharedPreferences efter borttagning
+    }
+
+
     // Funktion för att visa platsen på kartan i HomeFragment
     private fun showLocationOnMap(location: String) {
         // Skapa en bundle för att skicka platsinformationen till HomeFragment
@@ -134,7 +145,7 @@ class SavedLocationFragment : Fragment() {
         //savedLocationsList.clear() // Rensa listan för att bara behålla de sparade platserna
         tempCoordinatesList.addAll(savedLocationsSet ?: emptySet())
 
-        adapter.notifyDataSetChanged()
+        adapter?.notifyDataSetChanged()
     }
 
 
@@ -142,7 +153,7 @@ class SavedLocationFragment : Fragment() {
     private fun clearHistory() {
         // Rensa listan med sparade platser och uppdatera adaptern
         tempCoordinatesList.clear()
-        adapter.notifyDataSetChanged()
+        adapter?.notifyDataSetChanged()
 
         // Rensa sparade platser från SharedPreferences
         sharedPreferences.edit().remove("savedLocations").apply()

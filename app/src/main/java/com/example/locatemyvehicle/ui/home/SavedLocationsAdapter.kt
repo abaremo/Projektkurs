@@ -8,12 +8,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.locatemyvehicle.R
 
-class SavedLocationsAdapter(private val dataSet: List<String>, private val onItemClick: (String) -> Unit) :
+class SavedLocationsAdapter(private val dataSet: List<String>,
+                            private val onItemClick: (String) -> Unit,
+                            private val onRemoveClick: (Int) -> Unit) :
     RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewLocationName: TextView = view.findViewById(R.id.textViewLocationName)
-        //val btnDeleteLocation: ImageButton = view.findViewById(R.id.btnDeleteLocation)
+        val btnDeleteLocation: ImageButton = view.findViewById(R.id.btnDeleteLocation)
 
         init {
             // Sätt en klicklyssnare för varje sparad plats
@@ -22,6 +24,15 @@ class SavedLocationsAdapter(private val dataSet: List<String>, private val onIte
                 if (position != RecyclerView.NO_POSITION) {
                     val location = dataSet[position]
                     onItemClick(location)
+                }
+            }
+
+            // Sätt en klicklyssnare för att ta bort platsen när knappen trycks
+            btnDeleteLocation.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    // Skicka tillbaka positionen till fragmentet/aktiviteten för att hantera borttagningen
+                    onRemoveClick(position)
                 }
             }
         }
@@ -35,14 +46,6 @@ class SavedLocationsAdapter(private val dataSet: List<String>, private val onIte
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val savedLocation = dataSet[position]
         holder.textViewLocationName.text = savedLocation
-
-
-
-        // Sätt en klicklyssnare för att ta bort platsen när knappen trycks
-        //holder.btnDeleteLocation.setOnClickListener {
-            // Anropa en funktion för att ta bort platsen från listan eller annan hantering
-            // Exempel: removeItem(position)
-        //}
     }
 
     override fun getItemCount(): Int {
