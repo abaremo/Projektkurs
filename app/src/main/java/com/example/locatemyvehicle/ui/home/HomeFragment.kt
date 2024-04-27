@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
     private var shouldSaveLocation = false
     private lateinit var savedLocationsAdapter: SavedLocationsAdapter
     private val viewModel: SharedViewModel by activityViewModels()
-
+    private var savedLocation: GeoPoint? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -118,9 +118,9 @@ class HomeFragment : Fragment() {
 
                 R.id.btnRoad -> {
                     // Klicklyssnare för knappen "Road"
-                    if (::lastMarker.isInitialized) {
+                    if (savedLocation != null) {
                         // Om sista markören är initierad, bygg vägen
-                        buildRoad(lastMarker.position)
+                        buildRoad(savedLocation!!)
                     } else {
                         Toast.makeText(
                             requireContext(),
@@ -234,6 +234,7 @@ class HomeFragment : Fragment() {
 
     // Funktion för att lägga till ikonen för den sparade platsen på kartan
     private fun addSavedLocationIcon(savedLocation: GeoPoint) {
+        this.savedLocation = savedLocation
         val marker = Marker(binding.mapOSM)
         marker.position = savedLocation
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
