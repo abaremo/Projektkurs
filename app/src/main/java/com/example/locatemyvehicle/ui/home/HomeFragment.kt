@@ -364,7 +364,7 @@ class HomeFragment : Fragment() {
                     val formattime = "%.2f".format(road.mDuration / 60)
                     Toast.makeText(
                         requireContext(), "${formatlength} km, " +
-                                "${formattime} min", Toast.LENGTH_SHORT
+                                "${formattime} min", Toast.LENGTH_LONG
                     ).show()
                 }
             } catch (e: Exception) {
