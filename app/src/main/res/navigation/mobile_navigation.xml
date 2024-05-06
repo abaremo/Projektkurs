@@ -67,25 +67,25 @@
     <fragment
         android:id="@+id/fuelFragment"
         android:name="com.example.locatemyvehicle.ui.nearby.FuelFragment"
-        android:label="Fuel Fragment"
+        android:label="Fuel station"
         tools:layout="@layout/fragment_fuel" />
 
     <fragment
         android:id="@+id/parkingFragment"
         android:name="com.example.locatemyvehicle.ui.nearby.ParkingFragment"
-        android:label="Parking Fragment"
+        android:label="Parking"
         tools:layout="@layout/fragment_parking" />
 
     <fragment
         android:id="@+id/hotelFragment"
         android:name="com.example.locatemyvehicle.ui.nearby.HotelFragment"
-        android:label="Hotel Fragment"
+        android:label="Hotel"
         tools:layout="@layout/fragment_hotel" />
 
     <fragment
         android:id="@+id/restaurantFragment"
         android:name="com.example.locatemyvehicle.ui.nearby.RestaurantFragment"
-        android:label="Restaurant Fragment"
+        android:label="Restaurant"
         tools:layout="@layout/fragment_restaurant" />
 
     <fragment
@@ -97,12 +97,12 @@
     <fragment
         android:id="@+id/bicycleparkingFragment"
         android:name="com.example.locatemyvehicle.ui.nearby.BicycleParkingFragment"
-        android:label="Bicycle parking Fragment"
+        android:label="Bicycle parking"
         tools:layout="@layout/fragment_bicycleparking" />
     <fragment
         android:id="@+id/chargingstationFragment"
         android:name="com.example.locatemyvehicle.ui.nearby.ChargingStationFragment"
-        android:label="Charging station Fragment"
+        android:label="Charging station"
         tools:layout="@layout/fragment_chargingstation" />
 
     <!-- Lägg till andra fragment här om det behövs -->
