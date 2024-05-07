@@ -44,6 +44,7 @@ class HomeFragment : Fragment() {
     val fragment = this
     private lateinit var mapEventsOverlay: MapEventsOverlay
     private lateinit var lastMarker: Marker
+
     //private var savedParkingPosition: GeoPoint? = null
     private val tempCoordinateList = mutableListOf<GeoPoint>()
     private var shouldSaveLocation = false
@@ -82,15 +83,15 @@ class HomeFragment : Fragment() {
         savedLocationsAdapter = SavedLocationsAdapter(
             savedLocations,
             onItemClick = { location ->
-            // Hantera klick på sparad plats
-            // Exempel: Visa platsen på kartan i HomeFragment
-            showLocationOnMap(location)
-        },
+                // Hantera klick på sparad plats
+                // Exempel: Visa platsen på kartan i HomeFragment
+                showLocationOnMap(location)
+            },
             onRemoveClick = { position ->
-            // Hantera borttagning av sparad plats
-            // Exempel: Ta bort platsen från listan och uppdatera adaptern
-            removeSavedLocation(position)
-        })
+                // Hantera borttagning av sparad plats
+                // Exempel: Ta bort platsen från listan och uppdatera adaptern
+                removeSavedLocation(position)
+            })
 
         // Tilldela adaptern till RecyclerView
         binding.recyclerViewSavedLocations.adapter = savedLocationsAdapter
@@ -132,14 +133,14 @@ class HomeFragment : Fragment() {
                 }
 
                 R.id.btnSaved -> {
-                        val bundle = Bundle().apply {
-                            putStringArray(
-                                "savedLocations",
-                                tempCoordinateList.map { "${it.latitude}, ${it.longitude}" }
-                                    .toTypedArray()
-                            )
-                        }
-                        findNavController().navigate(R.id.savedlocationFragment, bundle)
+                    val bundle = Bundle().apply {
+                        putStringArray(
+                            "savedLocations",
+                            tempCoordinateList.map { "${it.latitude}, ${it.longitude}" }
+                                .toTypedArray()
+                        )
+                    }
+                    findNavController().navigate(R.id.savedlocationFragment, bundle)
                     shouldSaveLocation = false
                     true
                 }
@@ -166,8 +167,8 @@ class HomeFragment : Fragment() {
 
         mapEventsOverlay = MapEventsOverlay(object : MapEventsReceiver {
             override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean {
-                if ( p != null && shouldSaveLocation) {
-                    binding.mapOSM.overlays.removeAll{it is Marker}
+                if (p != null && shouldSaveLocation) {
+                    binding.mapOSM.overlays.removeAll { it is Marker } //gör att det inte blir markörer överallt
                     addMarker(p)
                     return true
 
@@ -178,12 +179,11 @@ class HomeFragment : Fragment() {
             override fun longPressHelper(p: GeoPoint?): Boolean {
                 return false
             }
-        } )
+        })
 
         binding.mapOSM.overlays.add(0, mapEventsOverlay)
 
-
-        val fabButton: FloatingActionButton = view.findViewById(R.id.addMarkers) // Ersätt YOUR_FAB_ID med den faktiska id:en för din FloatingActionButton
+        val fabButton: FloatingActionButton = view.findViewById(R.id.addMarkers)
         fabButton.setOnClickListener {
             shouldSaveLocation = true
         }
@@ -244,9 +244,11 @@ class HomeFragment : Fragment() {
     }
 
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main, menu) // Ersätt "your_menu_file_name" med rätt filnamn för din meny
+        inflater.inflate(
+            R.menu.main,
+            menu
+        ) // Ersätt "your_menu_file_name" med rätt filnamn för din meny
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -268,11 +270,11 @@ class HomeFragment : Fragment() {
     }
 
 
-
     private fun configurationMap() {
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
         Configuration.getInstance().osmdroidBasePath = requireActivity().filesDir
     }
+
     fun toggleMapType(view: View) {
         if (binding.mapOSM.tileProvider.tileSource == TileSourceFactory.MAPNIK) {
             // Byt till mörk karta
@@ -305,7 +307,11 @@ class HomeFragment : Fragment() {
                 createLocationOverlay(zoom)
             } else {
 // Om tillståndet inte beviljades, hantera det här
-                Toast.makeText(fragment.requireContext(), "Location permission denied.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    fragment.requireContext(),
+                    "Location permission denied.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -356,6 +362,32 @@ class HomeFragment : Fragment() {
             try {
                 val road = roadManager.getRoad(waypoints)
                 val roadOverlay = RoadManager.buildRoadOverlay(road)
+
+
+                //Funktion för navigering
+                val bearing
+                        = calculateBearing(startPoint,
+                    endPoint)
+                val path
+                        = roadOverlay?.actualPoints
+                val everyTenthPoint
+                        = mutableListOf<GeoPoint>()
+
+                for ((index,
+                    point)
+                in path?.withIndex()!!) {
+
+                    if (index
+                        % 10
+                        == 0) {
+// Check if the index is divisible by 10
+
+                        everyTenthPoint.add(point)
+// Add the point to the list
+                    }
+
+                }
+
                 withContext(Dispatchers.Main) {
                     binding.mapOSM.overlays.add(0, roadOverlay)
                     binding.mapOSM.invalidate()
@@ -369,11 +401,71 @@ class HomeFragment : Fragment() {
                 }
             } catch (e: Exception) {
                 Log.e("RoadBuildingError", "Error building road: ${e.message}")
-// Hantera fel här
             }
         }
     }
+    fun calculateBearing(startPoint:
+                         GeoPoint, endPoint:
+                         GeoPoint):
+            Double {
+        val lat1 = Math.toRadians(startPoint.latitude)
+        val lon1 = Math.toRadians(startPoint.longitude)
+        val lat2 = Math.toRadians(endPoint.latitude)
+        val lon2 = Math.toRadians(endPoint.longitude)
+        val dLon = lon2 - lon1
+        val y = Math.sin(dLon) * Math.cos(lat2)
+        val x = Math.cos(lat1) * Math.sin(lat2) -
+                Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon)
 
+        var bearing = Math.atan2(y, x)
+        bearing = Math.toDegrees(bearing)
+
+        bearing = (bearing + 360) % 360
+
+        return bearing
+    }
+    fun interpolatePointsAlongPolyline(startPoint:
+                                       GeoPoint, endPoint:
+                                       GeoPoint, numPoints:
+                                       Int):
+            List<GeoPoint>
+
+    {
+        val marker = Marker(binding.mapOSM)
+
+        val points = mutableListOf<GeoPoint>()
+        val totalDistance = startPoint.distanceToAsDouble(endPoint)
+        val stepDistance = totalDistance/ (numPoints + 1)
+        val bearing = startPoint.bearingTo(endPoint)
+        var currentDistance = stepDistance
+        repeat(numPoints)
+        { val interpolatedPoint = startPoint.destinationPoint(currentDistance,
+                bearing)
+
+            points.add(interpolatedPoint)
+            currentDistance += stepDistance
+
+            Toast.makeText(requireContext(),
+                "Distance: $currentDistance km",
+                Toast.LENGTH_SHORT).show()
+
+        }
+
+            points.forEach()
+        { point ->
+            val marker = Marker(binding.mapOSM)
+            marker.position = point
+
+            // You can customize the marker if needed
+
+            binding.mapOSM.overlays.add(marker)
+
+        }
+
+        return points
+
+    }
 
 }
+
 

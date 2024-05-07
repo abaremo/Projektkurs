@@ -2,6 +2,7 @@ package com.example.locatemyvehicle.ui.nearby
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +13,18 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.example.locatemyvehicle.R
 import com.example.locatemyvehicle.databinding.FragmentParkingBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import org.osmdroid.bonuspack.routing.OSRMRoadManager
+import org.osmdroid.bonuspack.routing.RoadManager
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.Polyline
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
@@ -72,7 +80,7 @@ class ParkingFragment : Fragment() {
             markerH.title = "Parking spot"
             markerH.setOnMarkerClickListener { marker, mapOSM ->
                 Toast.makeText(requireContext(), marker.title, Toast.LENGTH_SHORT).show()
-                // buildRoad(marker.position)
+                buildRoad(marker.position)
                 return@setOnMarkerClickListener true
             }
             binding.mapOSM.overlays.add(markerH)
@@ -165,6 +173,41 @@ class ParkingFragment : Fragment() {
 // Om användarens plats inte är tillgänglig, hantera det här
                     Toast.makeText(fragment.requireContext(), "Användarens plats är inte tillgänglig.", Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+    }
+    /// build road
+    private fun buildRoad(endPoint: GeoPoint) {
+        binding.mapOSM.overlays.removeAll { it is Polyline }
+        CoroutineScope(Dispatchers.IO).launch {
+            val roadManager = OSRMRoadManager(
+                requireContext(),
+                System.getProperty("http.agent")
+            )
+// Hur reser du i rutten, cykel, gå, bil
+            roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
+            val waypoints =
+                arrayListOf<GeoPoint>(
+                    locationOverlay?.myLocation ?: startPoint,
+                    endPoint
+                )
+            try {
+                val road = roadManager.getRoad(waypoints)
+                val roadOverlay = RoadManager.buildRoadOverlay(road)
+                withContext(Dispatchers.Main) {
+                    binding.mapOSM.overlays.add(0, roadOverlay)
+                    binding.mapOSM.invalidate()
+
+                    val formatlength = "%.2f".format(road.mLength)
+                    val formattime = "%.2f".format(road.mDuration / 60)
+                    Toast.makeText(
+                        requireContext(), "${formatlength} km, " +
+                                "${formattime} min", Toast.LENGTH_LONG
+                    ).show()
+                }
+            } catch (e: Exception) {
+                Log.e("RoadBuildingError", "Error building road: ${e.message}")
+// Hantera fel här
             }
         }
     }
