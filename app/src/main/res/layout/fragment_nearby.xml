@@ -20,18 +20,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageButton
-        android:id="@+id/fuelButton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="80dp"
-        android:backgroundTint="#FEFEFE"
-        android:src="@drawable/ic_fuel"
-        app:layout_constraintEnd_toStartOf="@+id/chargingButton"
-        app:layout_constraintHorizontal_bias="0.312"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/parkingButton" />
+        <ImageButton
+            android:id="@+id/fuelButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="60dp"
+            android:backgroundTint="#FEFEFE"
+            android:src="@drawable/ic_fuel"
+            app:layout_constraintEnd_toStartOf="@+id/chargingButton"
+            app:layout_constraintHorizontal_bias="0.297"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/parkingButton" />
 
     <TextView
         android:id="@+id/textView2"
@@ -54,7 +54,7 @@
         android:id="@+id/hotelButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginEnd="70dp"
+        android:layout_marginEnd="80dp"
         android:layout_marginBottom="12dp"
         android:backgroundTint="#FEFEFE"
         android:src="@drawable/ic_hotel"
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="92dp"
-        android:layout_marginEnd="92dp"
+        android:layout_marginEnd="100dp"
         android:text="Hotel"
         android:textColor="@color/black"
         android:textSize="17sp"
@@ -81,7 +81,7 @@
         android:id="@+id/parkingButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="252dp"
         android:backgroundTint="#FEFEFE"
         android:src="@drawable/ic_parking"
@@ -101,7 +101,7 @@
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/parkingButton">
 
@@ -111,13 +111,14 @@
         android:id="@+id/restaurantButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="48dp"
         android:backgroundTint="#FEFEFE"
         android:src="@drawable/ic_restaurant"
         app:layout_constraintEnd_toStartOf="@+id/hotelButton"
+        app:layout_constraintHorizontal_bias="0.32"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fuelButton" />
-
 
     <TextView
         android:layout_width="wrap_content"
@@ -129,7 +130,7 @@
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.469"
+        app:layout_constraintHorizontal_bias="0.424"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/restaurantButton">
 
@@ -139,7 +140,7 @@
         android:id="@+id/bicycleButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginEnd="70dp"
+        android:layout_marginEnd="80dp"
         android:backgroundTint="#FEFEFE"
         android:src="@drawable/ic_parking_bicycle"
         app:layout_constraintBottom_toTopOf="@+id/textView"
@@ -168,8 +169,8 @@
         android:id="@+id/chargingButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="68dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="80dp"
         android:backgroundTint="#FEFEFE"
         android:src="@drawable/ic_charging_station"
         app:layout_constraintEnd_toEndOf="parent"
