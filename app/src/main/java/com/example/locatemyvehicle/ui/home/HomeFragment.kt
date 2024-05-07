@@ -408,47 +408,21 @@ class HomeFragment : Fragment() {
                          GeoPoint, endPoint:
                          GeoPoint):
             Double {
+        val lat1 = Math.toRadians(startPoint.latitude)
+        val lon1 = Math.toRadians(startPoint.longitude)
+        val lat2 = Math.toRadians(endPoint.latitude)
+        val lon2 = Math.toRadians(endPoint.longitude)
+        val dLon = lon2 - lon1
+        val y = Math.sin(dLon) * Math.cos(lat2)
+        val x = Math.cos(lat1) * Math.sin(lat2) -
+                Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon)
 
-        val lat1
-                = Math.toRadians(startPoint.latitude)
+        var bearing = Math.atan2(y, x)
+        bearing = Math.toDegrees(bearing)
 
-        val lon1
-                = Math.toRadians(startPoint.longitude)
-
-        val lat2
-                = Math.toRadians(endPoint.latitude)
-
-        val lon2
-                = Math.toRadians(endPoint.longitude)
-
-        val dLon
-                = lon2
-        - lon1
-
-        val y
-                = Math.sin(dLon) *
-                Math.cos(lat2)
-
-        val x
-                = Math.cos(lat1) *
-                Math.sin(lat2) -
-                Math.sin(lat1) *
-                Math.cos(lat2) *
-                Math.cos(dLon)
-
-        var bearing
-                = Math.atan2(y,
-            x)
-
-        bearing =
-            Math.toDegrees(bearing)
-
-        bearing = (bearing
-                + 360) %
-                360
+        bearing = (bearing + 360) % 360
 
         return bearing
-
     }
     fun interpolatePointsAlongPolyline(startPoint:
                                        GeoPoint, endPoint:
@@ -457,30 +431,19 @@ class HomeFragment : Fragment() {
             List<GeoPoint>
 
     {
-        val marker
-                = Marker(binding.mapOSM)
+        val marker = Marker(binding.mapOSM)
 
-
-
-        val points
-                = mutableListOf<GeoPoint>()
-        val totalDistance
-                = startPoint.distanceToAsDouble(endPoint)
-        val stepDistance
-                = totalDistance/ (numPoints + 1)
-        val bearing
-                = startPoint.bearingTo(endPoint)
-        var currentDistance
-                = stepDistance
+        val points = mutableListOf<GeoPoint>()
+        val totalDistance = startPoint.distanceToAsDouble(endPoint)
+        val stepDistance = totalDistance/ (numPoints + 1)
+        val bearing = startPoint.bearingTo(endPoint)
+        var currentDistance = stepDistance
         repeat(numPoints)
-        { val interpolatedPoint
-            = startPoint.destinationPoint(currentDistance,
+        { val interpolatedPoint = startPoint.destinationPoint(currentDistance,
                 bearing)
 
             points.add(interpolatedPoint)
-
-            currentDistance +=
-                stepDistance
+            currentDistance += stepDistance
 
             Toast.makeText(requireContext(),
                 "Distance: $currentDistance km",
