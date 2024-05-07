@@ -12,6 +12,7 @@
     android:clipToPadding="true">
 
 
+
     <org.osmdroid.views.MapView
         android:id="@+id/mapOSM"
         android:layout_width="410dp"
@@ -20,18 +21,62 @@
         android:layout_marginEnd="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        >
+
 
     </org.osmdroid.views.MapView>
 
     <!-- Lägg till RecyclerView för sparade platser -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSavedLocations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:padding="16dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_anchor="@+id/recyclerViewSavedLocations"
+        app:layout_anchorGravity="center"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <!-- Textruta 1 -->
+    <TextView
+        android:id="@+id/tvStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="24dp"
+        android:layout_gravity="start|top" />
+
+    <!-- Textruta 2 -->
+    <TextView
+        android:id="@+id/tvDestination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Destination"
+        android:layout_marginTop="34dp"
+        android:layout_marginStart="24dp"
+        android:layout_gravity="start|top" />
+
+    <!-- Textruta 3 -->
+    <TextView
+        android:id="@+id/tvGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guide"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="54dp"
+        android:layout_gravity="end|top" />
+
+    <!-- Knapp -->
+    <Button
+        android:id="@+id/btnNav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="54dp"
+        android:layout_gravity="end|top"/>
 
     <ImageButton
         android:id="@+id/btnToggleMap"
