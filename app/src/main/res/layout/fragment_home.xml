@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
     android:clipToPadding="true">
-
 
 
     <org.osmdroid.views.MapView
@@ -20,8 +17,7 @@
         android:layout_marginStart="0.5dp"
         android:layout_marginEnd="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent">
 
 
     </org.osmdroid.views.MapView>
@@ -43,51 +39,51 @@
         android:id="@+id/tvStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start"
-        android:layout_marginTop="14dp"
+        android:layout_gravity="start|top"
         android:layout_marginStart="24dp"
-        android:layout_gravity="start|top" />
+        android:layout_marginTop="14dp"
+        android:text="Start" />
 
     <!-- Textruta 2 -->
     <TextView
         android:id="@+id/tvDestination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Destination"
-        android:layout_marginTop="34dp"
+        android:layout_gravity="start|top"
         android:layout_marginStart="24dp"
-        android:layout_gravity="start|top" />
+        android:layout_marginTop="34dp"
+        android:text="Destination" />
 
     <!-- Textruta 3 -->
     <TextView
         android:id="@+id/tvGuide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Guide"
+        android:layout_gravity="end|top"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="54dp"
-        android:layout_gravity="end|top" />
+        android:text="Guide" />
 
     <!-- Knapp -->
     <Button
         android:id="@+id/btnNav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="54dp"
-        android:layout_gravity="end|top"/>
+        android:layout_gravity="end|top"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="270dp"
+        android:text="Navigate" />
 
     <ImageButton
         android:id="@+id/btnToggleMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_layer"
-        android:background="@null"
-        android:onClick="toggleMapType"
+        android:layout_gravity="end|top"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_gravity="end|top"/>
+        android:background="@null"
+        android:onClick="toggleMapType"
+        android:src="@drawable/ic_layer" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -126,7 +122,6 @@
 
 
     </com.google.android.material.bottomappbar.BottomAppBar>
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

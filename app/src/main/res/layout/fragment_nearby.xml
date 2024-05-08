@@ -183,7 +183,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="60dp"
         android:layout_marginTop="88dp"
-        android:text="Charging station"
+        android:text="Charging"
         android:textColor="@color/black"
         android:textSize="17sp"
         android:textStyle="bold"
