@@ -380,10 +380,10 @@ class HomeFragment : Fragment() {
                     if (index
                         % 10
                         == 0) {
-// Check if the index is divisible by 10
+// // Kontrollera om indexet är delbart med 10
 
                         everyTenthPoint.add(point)
-// Add the point to the list
+// lägg till punkter i listan
                     }
 
                 }
@@ -456,7 +456,7 @@ class HomeFragment : Fragment() {
             val marker = Marker(binding.mapOSM)
             marker.position = point
 
-            // You can customize the marker if needed
+            // Anpassa markören
 
             binding.mapOSM.overlays.add(marker)
 
