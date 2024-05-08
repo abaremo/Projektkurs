@@ -1,266 +1,657 @@
 {
   "type": "FeatureCollection",
-  "name": "Laddstolpar for elbilar",
+  "generator": "overpass-turbo",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2024-05-08T11:53:15Z",
   "features": [
     {
       "type": "Feature",
+      "properties": {
+        "@id": "node/7516098815",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "4",
+        "fee": "no",
+        "name": "Gavlehovsvägen 13",
+        "operator": "Gävle Energi",
+        "parking:fee": "no",
+        "ref:nobil": "3119",
+        "socket:type2": "4",
+        "socket:type2:output": "22 kW"
+      },
       "geometry": {
         "type": "Point",
-        "coordinates": [17.629093, 59.1893339995291]
+        "coordinates": [
+          17.1340772,
+          60.6904769
+        ]
       },
-      "properties": {
-        "LADDSTATIONSNAMN": "Bangatan",
-        "GATUNAMN": "Södertälje Bangatan 34",
-        "HUSNUMMER": "34",
-        "POSTNUMMER": "15132",
-        "GPS-POSITION LATITUD": "59.189334",
-        "GPS-POSITION LONGITUD": "17.629093",
-        "ÄGARE": "Södertälje kommun",
-        "ANTAL LADDPUNKTER": "2",
-        "PLATSBESKRIVNING": "Mittemot OKQ8",
-        "ÖVRIGA UPPLYSNINGAR": "Laddstationen ger 32A totalt uppdelat på antalet samtidigt laddande fordon.",
-        "KONTAKTUPPGIFTER": "parkering@sodertalje.se",
-        "PLATS": "Gatuplan",
-        "TILLGÄNGLIGHET": null,
-        "ÖPPET 24H": "Ja",
-        "PARKERINGSAVGIFT": "Ja",
-        "TIDSBEGRÄNSNING": "Nej",
-        "REALTIDSINFORMATION": "Nej",
-        "UTBYGGNADSSTÖD": null,
-        "BETALNINGSMETOD": "Gratis",
-        "LADDPUNKT 1": "Type2, 22kw, 32A",
-        "LADDPUNKT 2": "Type2, 22kw, 32A",
-        "LADDPUNKT 3": null,
-        "LADDPUNKT 4": null,
-        "LADDPUNKT 5": null,
-        "LADDPUNKT 6": null,
-        "LADDPUNKT 7": null,
-        "LADDPUNKT 8": null,
-        "LADDPUNKT 9": null,
-        "LADDPUNKT 10": null,
-        "LADDPUNKT 11": null,
-        "LADDPUNKT 12": null,
-        "LADDPUNKT 13": null,
-        "LADDPUNKT 14": null,
-        "LADDPUNKT 15": null,
-        "LADDPUNKT 16": null,
-        "LADDPUNKT 17": null,
-        "LADDPUNKT 18": null,
-        "LADDPUNKT 19": null,
-        "LADDPUNKT 20": null,
-        "STATUS": "Working",
-        "DATUM SKAPAD": "20140101",
-        "DATUM MODIFIERAD": null,
-        "KOMMUN-KOD": "0181"
-      }
+      "id": "node/7516098815"
     },
     {
       "type": "Feature",
+      "properties": {
+        "@id": "node/7516098817",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "2",
+        "description": "1x CCS 50kW 1x ChaDeMo 50kW",
+        "fee": "no",
+        "name": "Gavlehovsvägen 15",
+        "opening_hours": "24/7",
+        "operator": "Gavlefastigheter",
+        "parking:fee": "no",
+        "ref:nobil": "2800",
+        "socket:chademo": "2",
+        "socket:chademo:output": "50 kW",
+        "socket:type2_combo": "2",
+        "socket:type2_combo:output": "50 kW"
+      },
       "geometry": {
         "type": "Point",
-        "coordinates": [17.565207, 59.0894009995281]
+        "coordinates": [
+          17.1348979,
+          60.6911157
+        ]
       },
-      "properties": {
-        "LADDSTATIONSNAMN": "Hagagatan (Järna)",
-        "GATUNAMN": "Södertälje Järna Hagagatan 12",
-        "HUSNUMMER": "12",
-        "POSTNUMMER": "15330",
-        "GPS-POSITION LATITUD": "59.089401",
-        "GPS-POSITION LONGITUD": "17.565207",
-        "ÄGARE": "Södertälje kommun",
-        "ANTAL LADDPUNKTER": "2",
-        "PLATSBESKRIVNING": "Längs Hagagatan mot Järnaparken",
-        "ÖVRIGA UPPLYSNINGAR": "Laddstationen ger 32A totalt uppdelat på antalet samtidigt laddande fordon.",
-        "KONTAKTUPPGIFTER": "parkering@sodertalje.se",
-        "PLATS": "Gatuplan",
-        "TILLGÄNGLIGHET": null,
-        "ÖPPET 24H": "Ja",
-        "PARKERINGSAVGIFT": "Nej",
-        "TIDSBEGRÄNSNING": "Nej",
-        "REALTIDSINFORMATION": "Nej",
-        "UTBYGGNADSSTÖD": null,
-        "BETALNINGSMETOD": "Gratis",
-        "LADDPUNKT 1": "Type2, 22kw, 32A",
-        "LADDPUNKT 2": "Type2, 22kw, 32A",
-        "LADDPUNKT 3": null,
-        "LADDPUNKT 4": null,
-        "LADDPUNKT 5": null,
-        "LADDPUNKT 6": null,
-        "LADDPUNKT 7": null,
-        "LADDPUNKT 8": null,
-        "LADDPUNKT 9": null,
-        "LADDPUNKT 10": null,
-        "LADDPUNKT 11": null,
-        "LADDPUNKT 12": null,
-        "LADDPUNKT 13": null,
-        "LADDPUNKT 14": null,
-        "LADDPUNKT 15": null,
-        "LADDPUNKT 16": null,
-        "LADDPUNKT 17": null,
-        "LADDPUNKT 18": null,
-        "LADDPUNKT 19": null,
-        "LADDPUNKT 20": null,
-        "STATUS": "Working",
-        "DATUM SKAPAD": "20140101",
-        "DATUM MODIFIERAD": "20210312",
-        "KOMMUN-KOD": "0181"
-      }
+      "id": "node/7516098817"
     },
     {
       "type": "Feature",
+      "properties": {
+        "@id": "node/8330817920",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "2",
+        "charge": "5SEK/hour, 0.5 EUR/hour",
+        "description": "2 public chargers, 22kW AC Type 2. You only pay a parking fee with the app Parkster.",
+        "fee": "yes",
+        "motorcar": "yes",
+        "name": "Solgårdsgatan 12-14",
+        "operator": "Gävle Energi",
+        "parking:fee": "yes",
+        "payment:app": "yes",
+        "ref:nobil": "3967",
+        "socket:type2": "2",
+        "socket:type2:output": "22 kW"
+      },
       "geometry": {
         "type": "Point",
-        "coordinates": [17.6236821, 59.1915749995291]
+        "coordinates": [
+          17.2146572,
+          60.6753134
+        ]
       },
-      "properties": {
-        "LADDSTATIONSNAMN": "Stadshusets parkering",
-        "GATUNAMN": "Södertälje Parkgatan 2",
-        "HUSNUMMER": "2",
-        "POSTNUMMER": "15132",
-        "GPS-POSITION LATITUD": "59.191575",
-        "GPS-POSITION LONGITUD": "17.6236821",
-        "ÄGARE": "Södertälje kommun",
-        "ANTAL LADDPUNKTER": "8",
-        "PLATSBESKRIVNING": "Parkgatan 2",
-        "ÖVRIGA UPPLYSNINGAR": "Laddstationen ger 32A totalt uppdelat på antalet samtidigt laddande fordon.",
-        "KONTAKTUPPGIFTER": "parkering@sodertalje.se",
-        "PLATS": "Gatuplan",
-        "TILLGÄNGLIGHET": null,
-        "ÖPPET 24H": "Ja",
-        "PARKERINGSAVGIFT": "Ja",
-        "TIDSBEGRÄNSNING": "Nej",
-        "REALTIDSINFORMATION": "Nej",
-        "UTBYGGNADSSTÖD": null,
-        "BETALNINGSMETOD": "Gratis",
-        "LADDPUNKT 1": "Type2, 22kw, 32A",
-        "LADDPUNKT 2": "Type2, 22kw, 32A",
-        "LADDPUNKT 3": "Type2, 22kw, 32A",
-        "LADDPUNKT 4": "Type2, 22kw, 32A",
-        "LADDPUNKT 5": "Type2, 22kw, 32A",
-        "LADDPUNKT 6": "Type2, 22kw, 32A",
-        "LADDPUNKT 7": "Type2, 22kw, 32A",
-        "LADDPUNKT 8": "Type2, 22kw, 32A",
-        "LADDPUNKT 9": null,
-        "LADDPUNKT 10": null,
-        "LADDPUNKT 11": null,
-        "LADDPUNKT 12": null,
-        "LADDPUNKT 13": null,
-        "LADDPUNKT 14": null,
-        "LADDPUNKT 15": null,
-        "LADDPUNKT 16": null,
-        "LADDPUNKT 17": null,
-        "LADDPUNKT 18": null,
-        "LADDPUNKT 19": null,
-        "LADDPUNKT 20": null,
-        "STATUS": "Working",
-        "DATUM SKAPAD": "20190101",
-        "DATUM MODIFIERAD": null,
-        "KOMMUN-KOD": "0181"
-      }
+      "id": "node/8330817920"
     },
     {
       "type": "Feature",
+      "properties": {
+        "@id": "node/10742263679",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "4",
+        "name": "Ingenjörsgatan 1 1",
+        "operator": "Gävle Energi AB",
+        "parking:fee": "yes",
+        "ref:nobil": "7999",
+        "socket:type2": "4",
+        "socket:type2:output": "22 kW"
+      },
       "geometry": {
         "type": "Point",
-        "coordinates": [17.62386, 59.1910699995291]
+        "coordinates": [
+          17.14863,
+          60.64616
+        ]
       },
-      "properties": {
-        "LADDSTATIONSNAMN": "Stadshusets parkering",
-        "GATUNAMN": "Södertälje Parkgatan 4",
-        "HUSNUMMER": "4",
-        "POSTNUMMER": "15132",
-        "GPS-POSITION LATITUD": "59.191070",
-        "GPS-POSITION LONGITUD": "17.623860",
-        "ÄGARE": "Södertälje kommun",
-        "ANTAL LADDPUNKTER": "4",
-        "PLATSBESKRIVNING": "Uppe på parkeringsdäcket",
-        "ÖVRIGA UPPLYSNINGAR": "Laddstationen ger 32A totalt uppdelat på antalet samtidigt laddande fordon.",
-        "KONTAKTUPPGIFTER": "parkering@sodertalje.se",
-        "PLATS": "Gatuplan",
-        "TILLGÄNGLIGHET": null,
-        "ÖPPET 24H": "Ja",
-        "PARKERINGSAVGIFT": "Ja",
-        "TIDSBEGRÄNSNING": "Nej",
-        "REALTIDSINFORMATION": "Nej",
-        "UTBYGGNADSSTÖD": null,
-        "BETALNINGSMETOD": "Gratis",
-        "LADDPUNKT 1": "Type2, 22kw, 32A",
-        "LADDPUNKT 2": "Type2, 22kw, 32A",
-        "LADDPUNKT 3": "Type2, 22kw, 32A",
-        "LADDPUNKT 4": "Type2, 22kw, 32A",
-        "LADDPUNKT 5": null,
-        "LADDPUNKT 6": null,
-        "LADDPUNKT 7": null,
-        "LADDPUNKT 8": null,
-        "LADDPUNKT 9": null,
-        "LADDPUNKT 10": null,
-        "LADDPUNKT 11": null,
-        "LADDPUNKT 12": null,
-        "LADDPUNKT 13": null,
-        "LADDPUNKT 14": null,
-        "LADDPUNKT 15": null,
-        "LADDPUNKT 16": null,
-        "LADDPUNKT 17": null,
-        "LADDPUNKT 18": null,
-        "LADDPUNKT 19": null,
-        "LADDPUNKT 20": null,
-        "STATUS": "Working",
-        "DATUM SKAPAD": "20190101",
-        "DATUM MODIFIERAD": null,
-        "KOMMUN-KOD": "0181"
-      }
+      "id": "node/10742263679"
     },
     {
       "type": "Feature",
+      "properties": {
+        "@id": "node/10742263687",
+        "access": "customers",
+        "amenity": "charging_station",
+        "capacity": "6",
+        "name": "Tallåsvägen 30",
+        "operator": "Gävle Energi",
+        "parking:fee": "no",
+        "ref:nobil": "4095",
+        "socket:type2": "6",
+        "socket:type2:output": "11 kW"
+      },
       "geometry": {
         "type": "Point",
-        "coordinates": [17.661316, 59.184000999529]
+        "coordinates": [
+          17.15026,
+          60.69372
+        ]
       },
+      "id": "node/10742263687"
+    },
+    {
+      "type": "Feature",
       "properties": {
-        "LADDSTATIONSNAMN": "Östertälje station",
-        "GATUNAMN": "Södertälje Östertälje ",
-        "HUSNUMMER": null,
-        "POSTNUMMER": "15257",
-        "GPS-POSITION LATITUD": "59.184001",
-        "GPS-POSITION LONGITUD": "17.661316",
-        "ÄGARE": "Södertälje kommun",
-        "ANTAL LADDPUNKTER": "4",
-        "PLATSBESKRIVNING": "Parkeringsplatser nära stationsbyggnaden längs med spåret",
-        "ÖVRIGA UPPLYSNINGAR": "Laddstationen ger 32A totalt uppdelat på antalet samtidigt laddande fordon.",
-        "KONTAKTUPPGIFTER": "parkering@sodertalje.se",
-        "PLATS": "Gatuplan",
-        "TILLGÄNGLIGHET": null,
-        "ÖPPET 24H": "Ja",
-        "PARKERINGSAVGIFT": "Nej",
-        "TIDSBEGRÄNSNING": "Nej",
-        "REALTIDSINFORMATION": "Nej",
-        "UTBYGGNADSSTÖD": null,
-        "BETALNINGSMETOD": "Gratis",
-        "LADDPUNKT 1": "Type2, 22kw, 32A",
-        "LADDPUNKT 2": "Type2, 22kw, 32A",
-        "LADDPUNKT 3": "Type2, 22kw, 32A",
-        "LADDPUNKT 4": "Type2, 22kw, 32A",
-        "LADDPUNKT 5": null,
-        "LADDPUNKT 6": null,
-        "LADDPUNKT 7": null,
-        "LADDPUNKT 8": null,
-        "LADDPUNKT 9": null,
-        "LADDPUNKT 10": null,
-        "LADDPUNKT 11": null,
-        "LADDPUNKT 12": null,
-        "LADDPUNKT 13": null,
-        "LADDPUNKT 14": null,
-        "LADDPUNKT 15": null,
-        "LADDPUNKT 16": null,
-        "LADDPUNKT 17": null,
-        "LADDPUNKT 18": null,
-        "LADDPUNKT 19": null,
-        "LADDPUNKT 20": null,
-        "STATUS": "Working",
-        "DATUM SKAPAD": "20140101",
-        "DATUM MODIFIERAD": null,
-        "KOMMUN-KOD": "0181"
-      }
+        "@id": "node/10742263695",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "2",
+        "name": "Aimo Park Oxen",
+        "operator": "Aimo Park",
+        "parking:fee": "yes",
+        "ref:nobil": "7462;7276",
+        "socket:type2": "2",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.1472601,
+          60.6748678
+        ]
+      },
+      "id": "node/10742263695"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742263696",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "8",
+        "name": "Culinar pendlarparkering",
+        "operator": "Gävle Energi AB",
+        "parking:fee": "yes",
+        "ref:nobil": "7980",
+        "socket:type2": "8",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.15424,
+          60.67773
+        ]
+      },
+      "id": "node/10742263696"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742263697",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "3",
+        "name": "Geodetgatan 5",
+        "operator": "Din Bil Gruppen AB",
+        "parking:fee": "no",
+        "ref:nobil": "9490",
+        "socket:type2": "1",
+        "socket:type2:output": "22 kW",
+        "socket:type2_combo": "2",
+        "socket:type2_combo:output": "100 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.14565,
+          60.64014
+        ]
+      },
+      "id": "node/10742263697"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742263698",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "26",
+        "name": "Akademiska Hus Gävle Högskola",
+        "operator": "Akademiska Hus AB",
+        "parking:fee": "yes",
+        "ref:nobil": "13484",
+        "socket:type2": "26",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.12039,
+          60.66715
+        ]
+      },
+      "id": "node/10742263698"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742263701",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "4",
+        "name": "Gävle Konserthus",
+        "operator": "Gävle Energi AB",
+        "parking:fee": "no",
+        "ref:nobil": "2668",
+        "socket:type1": "2",
+        "socket:type1:output": "7.4 kW",
+        "socket:type2": "2",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.13292,
+          60.67181
+        ]
+      },
+      "id": "node/10742263701"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742263704",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "6",
+        "name": "InCharge",
+        "parking:fee": "no",
+        "ref:nobil": "7827",
+        "socket:type2": "4",
+        "socket:type2:output": "22 kW",
+        "socket:type2_combo": "2",
+        "socket:type2_combo:output": "150 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.162654,
+          60.659335
+        ]
+      },
+      "id": "node/10742263704"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321905",
+        "access": "yes",
+        "amenity": "charging_station",
+        "brand": "Mer",
+        "brand:wikidata": "Q100821564",
+        "capacity": "10",
+        "name": "Mer Stenhammarsvägen 17",
+        "parking:fee": "yes",
+        "ref:nobil": "11667",
+        "socket:type2": "10",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.1206,
+          60.66725
+        ]
+      },
+      "id": "node/10742321905"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321909",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "6",
+        "name": "Aimo Park Konvaljen",
+        "operator": "Aimo Park",
+        "parking:fee": "yes",
+        "ref:nobil": "7461",
+        "socket:type2": "6",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.14261,
+          60.67376
+        ]
+      },
+      "id": "node/10742321909"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321913",
+        "access": "customers",
+        "amenity": "charging_station",
+        "capacity": "4",
+        "name": "Vallongården",
+        "operator": "Gävle Energi",
+        "parking:fee": "no",
+        "ref:nobil": "4098",
+        "socket:type2": "4",
+        "socket:type2:output": "11 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.1476771,
+          60.661968
+        ]
+      },
+      "id": "node/10742321913"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321918",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "14",
+        "name": "Slottstorget",
+        "operator": "Gävle Energi AB",
+        "parking:fee": "yes",
+        "ref:nobil": "7995",
+        "socket:type2": "14",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.14567,
+          60.67218
+        ]
+      },
+      "id": "node/10742321918"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321922",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "4",
+        "name": "Norra Slottsgatan 8",
+        "operator": "Aimo Park",
+        "parking:fee": "yes",
+        "ref:nobil": "7277;7463",
+        "socket:type2": "4",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.1410666,
+          60.6752292
+        ]
+      },
+      "id": "node/10742321922"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321924",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "6",
+        "name": "Wilhelmina Skoghs gata 6",
+        "operator": "Gävle Energi AB",
+        "parking:fee": "yes",
+        "ref:nobil": "7975",
+        "socket:type2": "6",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.16755,
+          60.68169
+        ]
+      },
+      "id": "node/10742321924"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321925",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "4",
+        "name": "Nygatan 10",
+        "operator": "Aimo Park",
+        "parking:fee": "yes",
+        "ref:nobil": "7176",
+        "socket:type2": "4",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.13992,
+          60.67407
+        ]
+      },
+      "id": "node/10742321925"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321932",
+        "access": "yes",
+        "amenity": "charging_station",
+        "brand": "Mer",
+        "brand:wikidata": "Q100821564",
+        "capacity": "12",
+        "name": "Mer Scandic CH Gävle",
+        "operator": "Scandic Hotels AB",
+        "parking:fee": "yes",
+        "ref:nobil": "10051;9619",
+        "socket:type2": "12",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.14825,
+          60.67704
+        ]
+      },
+      "id": "node/10742321932"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321933",
+        "access": "yes",
+        "amenity": "charging_station",
+        "brand": "Mer",
+        "brand:wikidata": "Q100821564",
+        "capacity": "2",
+        "name": "Mer Circle K Gävle",
+        "parking:fee": "no",
+        "ref:nobil": "3324",
+        "socket:chademo": "1",
+        "socket:chademo:output": "50 kW",
+        "socket:type2": "1",
+        "socket:type2:output": "43 kW",
+        "socket:type2_combo": "1",
+        "socket:type2_combo:output": "50 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.07956,
+          60.66751
+        ]
+      },
+      "id": "node/10742321933"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321934",
+        "access": "customers",
+        "amenity": "charging_station",
+        "capacity": "10",
+        "name": "Forellplan 1B",
+        "operator": "Gävle Energi",
+        "parking:fee": "no",
+        "ref:nobil": "4096",
+        "socket:type2": "10",
+        "socket:type2:output": "11 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.113486,
+          60.6921662
+        ]
+      },
+      "id": "node/10742321934"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321946",
+        "access": "customers",
+        "amenity": "charging_station",
+        "capacity": "2",
+        "name": "Bergmästargården",
+        "operator": "Gävle Energi",
+        "parking:fee": "no",
+        "ref:nobil": "4097",
+        "socket:type2": "2",
+        "socket:type2:output": "11 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.16508,
+          60.67182
+        ]
+      },
+      "id": "node/10742321946"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321953",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "6",
+        "name": "Johanneslötsvägen 6",
+        "operator": "Scandic Hotels AB",
+        "parking:fee": "yes",
+        "ref:nobil": "5640",
+        "socket:type2": "6",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.08877,
+          60.67276
+        ]
+      },
+      "id": "node/10742321953"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321956",
+        "access": "customers",
+        "amenity": "charging_station",
+        "capacity": "4",
+        "name": "Gävle Energi",
+        "operator": "Gävle Energi AB",
+        "parking:fee": "no",
+        "ref:nobil": "2310",
+        "socket:type2": "4",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.15614,
+          60.68125
+        ]
+      },
+      "id": "node/10742321956"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321962",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "2",
+        "name": "Bilmetro i Gävle",
+        "operator": "Bilmetro AB",
+        "parking:fee": "no",
+        "ref:nobil": "2318",
+        "socket:type2": "1",
+        "socket:type2:output": "3.6 kW",
+        "socket:type2_combo": "1",
+        "socket:type2_combo:output": "50 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.15161,
+          60.66199
+        ]
+      },
+      "id": "node/10742321962"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321967",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "6",
+        "name": "Allego SHF Hemlingby Gävle",
+        "operator": "Allego",
+        "parking:fee": "no",
+        "ref:nobil": "9664",
+        "socket:chademo": "2",
+        "socket:chademo:output": "50 kW",
+        "socket:type2_combo": "6",
+        "socket:type2_combo:output": "300 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.14619,
+          60.64553
+        ]
+      },
+      "id": "node/10742321967"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10742321970",
+        "access": "yes",
+        "amenity": "charging_station",
+        "capacity": "4",
+        "name": "Drottninggatan 15",
+        "operator": "Aimo Park",
+        "parking:fee": "yes",
+        "ref:nobil": "7464",
+        "socket:type2": "4",
+        "socket:type2:output": "22 kW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.13975,
+          60.67409
+        ]
+      },
+      "id": "node/10742321970"
     }
   ]
 }
