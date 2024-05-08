@@ -44,6 +44,7 @@ class HomeFragment : Fragment() {
     val fragment = this
     private lateinit var mapEventsOverlay: MapEventsOverlay
     private lateinit var lastMarker: Marker
+
     //private var savedParkingPosition: GeoPoint? = null
     private val tempCoordinateList = mutableListOf<GeoPoint>()
     private var shouldSaveLocation = false
@@ -371,159 +372,160 @@ class HomeFragment : Fragment() {
                 requireContext(),
                 System.getProperty("http.agent")
             )
-// Hur reser du i rutten, cykel, gå, bil
             roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
             val waypoints = arrayListOf<GeoPoint>(
                 locationOverlay?.myLocation ?: startPoint,
-                    endPoint
-                )
+                endPoint
+            )
             try {
                 val road = roadManager.getRoad(waypoints)
                 val roadOverlay = RoadManager.buildRoadOverlay(road)
 
-
-                //Funktion för navigering
                 val bearing = calculateBearing(startPoint, endPoint)
                 val path = roadOverlay?.actualPoints
                 val everyTenthPoint = mutableListOf<GeoPoint>()
 
                 for ((index, point) in path?.withIndex()!!) {
-
                     if (index % 10 == 0) {
-// Check if the index is divisible by 10
-                    if (index
-                        % 10
-                        == 0) {
-// // Kontrollera om indexet är delbart med 10
-
                         everyTenthPoint.add(point)
-// lägg till punkter i listan
                     }
 
-                }
+                    withContext(Dispatchers.Main) {
+                        binding.mapOSM.overlays.add(0, roadOverlay)
+                        binding.mapOSM.invalidate()
 
-                withContext(Dispatchers.Main) {
-                    binding.mapOSM.overlays.add(0, roadOverlay)
-                    binding.mapOSM.invalidate()
-
-                    val formatlength = "%.2f".format(road.mLength)
-                    val formattime = "%.2f".format(road.mDuration / 60)
-                    Toast.makeText(
-                        requireContext(), "${formatlength} km, " +
-                                "${formattime} min", Toast.LENGTH_SHORT
-                    ).show()
-                    navigate(startPoint, endPoint, 10)
+                        val formatLength = "%.2f".format(road.mLength)
+                        val formatTime = "%.2f".format(road.mDuration / 60)
+                        Toast.makeText(
+                            requireContext(), "${formatLength} km, " +
+                                    "${formatTime} min", Toast.LENGTH_SHORT
+                        ).show()
+                        navigate(startPoint, endPoint, 10)
+                    }
                 }
             } catch (e: Exception) {
-                Log.e("RoadBuildingError", "Error building road: ${e.message}")
+                // Hantera undantag här
+                e.printStackTrace()
             }
         }
     }
+
+
 
     fun calculateBearing(startPoint: GeoPoint, endPoint: GeoPoint): Double {
 
-        val lat1 = Math.toRadians(startPoint.latitude)
+            val lat1 = Math.toRadians(startPoint.latitude)
 
-        val lon1 = Math.toRadians(startPoint.longitude)
+            val lon1 = Math.toRadians(startPoint.longitude)
 
-        val lat2 = Math.toRadians(endPoint.latitude)
+            val lat2 = Math.toRadians(endPoint.latitude)
 
-        val lon2 = Math.toRadians(endPoint.longitude)
+            val lon2 = Math.toRadians(endPoint.longitude)
 
-        val dLon = lon2-lon1
+            val dLon = lon2 - lon1
 
-        val y = Math.sin(dLon) * Math.cos(lat2)
+            val y = Math.sin(dLon) * Math.cos(lat2)
 
-        val x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon)
+            val x =
+                Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon)
 
-        var bearing = Math.atan2(y, x)
+            var bearing = Math.atan2(y, x)
 
-        bearing = Math.toDegrees(bearing)
+            bearing = Math.toDegrees(bearing)
 
-        bearing = (bearing + 360) % 360
+            bearing = (bearing + 360) % 360
 
-        return bearing
-
-    }
-
-    fun interpolatePointsAlongPolyline(
-        startPoint:
-        GeoPoint, endPoint:
-        GeoPoint, numPoints:
-        Int
-    ):
-            List<GeoPoint> {
-        val marker = Marker(binding.mapOSM)
-
-
-        val points = mutableListOf<GeoPoint>()
-        val totalDistance = startPoint.distanceToAsDouble(endPoint)
-        val stepDistance = totalDistance / (numPoints + 1)
-        val bearing = startPoint.bearingTo(endPoint)
-        var currentDistance = stepDistance
-        repeat(numPoints)
-        {
-            val interpolatedPoint = startPoint.destinationPoint(currentDistance, bearing)
-
-            points.add(interpolatedPoint)
-
-            currentDistance += stepDistance
-
-            Toast.makeText(requireContext(),
-                "Distance: $currentDistance km",
-                Toast.LENGTH_SHORT).show()
+            return bearing
 
         }
 
-        points.forEach()
-        { point ->
+        fun interpolatePointsAlongPolyline(
+            startPoint:
+            GeoPoint, endPoint:
+            GeoPoint, numPoints:
+            Int
+        ):
+                List<GeoPoint> {
             val marker = Marker(binding.mapOSM)
-            marker.position = point
-
-            // Anpassa markören
-
-            binding.mapOSM.overlays.add(marker)
-
-        }
-
-        return points
-
-    }
-
-    private fun navigate(startPoint: GeoPoint, endPoint: GeoPoint, numPoints: Int) {
-        val interpolatedPoints = interpolatePointsAlongPolyline(startPoint, endPoint, numPoints)
-        val bearings = mutableListOf<Double>()
-        for (i in 0 until interpolatedPoints.size - 1) {
-            val currentPoint = interpolatedPoints[i]
-            val nextPoint = interpolatedPoints[i + 1]
-            val bearing = calculateBearing(currentPoint, nextPoint)
-            bearings.add(bearing)
-        }
-
-    }
-
-    // Funktion för att uppdatera gångvägbeskrivningen
-    private fun updateGuidance(startPoint: GeoPoint, endPoint: GeoPoint, interpolatedPoints: List<GeoPoint>, bearings: List<Double>) {
-        val currentLocation = locationOverlay?.myLocation ?: startPoint
-        val nearestPointIndex = findNearestPointIndex(currentLocation, interpolatedPoints)
-        val targetBearing = bearings[nearestPointIndex]
 
 
-        }
+            val points = mutableListOf<GeoPoint>()
+            val totalDistance = startPoint.distanceToAsDouble(endPoint)
+            val stepDistance = totalDistance / (numPoints + 1)
+            val bearing = startPoint.bearingTo(endPoint)
+            var currentDistance = stepDistance
+            repeat(numPoints)
+            {
+                val interpolatedPoint = startPoint.destinationPoint(currentDistance, bearing)
 
+                points.add(interpolatedPoint)
 
-    private fun findNearestPointIndex(location: GeoPoint, points: List<GeoPoint>): Int {
-        var nearestIndex = 0
-        var shortestDistance = Double.MAX_VALUE
-        for ((index, point) in points.withIndex()) {
-            val distance = location.distanceToAsDouble(point)
-            if (distance < shortestDistance) {
-                shortestDistance = distance
-                nearestIndex = index
+                currentDistance += stepDistance
+
+                Toast.makeText(
+                    requireContext(),
+                    "Distance: $currentDistance km",
+                    Toast.LENGTH_SHORT
+                ).show()
+
             }
+
+            points.forEach()
+            { point ->
+                val marker = Marker(binding.mapOSM)
+                marker.position = point
+
+                // Anpassa markören
+
+                binding.mapOSM.overlays.add(marker)
+
+            }
+
+            return points
+
         }
-        return nearestIndex
-    }
+
+
+        private fun navigate(startPoint: GeoPoint, endPoint: GeoPoint, numPoints: Int) {
+            val interpolatedPoints = interpolatePointsAlongPolyline(startPoint, endPoint, numPoints)
+            val bearings = mutableListOf<Double>()
+            for (i in 0 until interpolatedPoints.size - 1) {
+                val currentPoint = interpolatedPoints[i]
+                val nextPoint = interpolatedPoints[i + 1]
+                val bearing = calculateBearing(currentPoint, nextPoint)
+                bearings.add(bearing)
+            }
+
+        }
+
+        // Funktion för att uppdatera gångvägbeskrivningen
+        private fun updateGuidance(
+            startPoint: GeoPoint,
+            endPoint: GeoPoint,
+            interpolatedPoints: List<GeoPoint>,
+            bearings: List<Double>
+        ) {
+            val currentLocation = locationOverlay?.myLocation ?: startPoint
+            val nearestPointIndex = findNearestPointIndex(currentLocation, interpolatedPoints)
+            val targetBearing = bearings[nearestPointIndex]
+
+
+        }
+
+
+        private fun findNearestPointIndex(location: GeoPoint, points: List<GeoPoint>): Int {
+            var nearestIndex = 0
+            var shortestDistance = Double.MAX_VALUE
+            for ((index, point) in points.withIndex()) {
+                val distance = location.distanceToAsDouble(point)
+                if (distance < shortestDistance) {
+                    shortestDistance = distance
+                    nearestIndex = index
+                }
+            }
+            return nearestIndex
+        }
 }
+
 
 
