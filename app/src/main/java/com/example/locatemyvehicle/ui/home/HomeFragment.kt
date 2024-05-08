@@ -35,8 +35,6 @@ import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import org.osmdroid.wms.BuildConfig
-import java.util.Timer
-import java.util.TimerTask
 
 class HomeFragment : Fragment() {
     //private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
@@ -77,7 +75,6 @@ class HomeFragment : Fragment() {
         //Click function for "get back" button
         getLocation(true)
         setHasOptionsMenu(true)
-
 
         // Använd savedLocationsList från viewmodelen här
         val savedLocations = viewModel.savedLocationsList
@@ -394,8 +391,13 @@ class HomeFragment : Fragment() {
 
                     if (index % 10 == 0) {
 // Check if the index is divisible by 10
+                    if (index
+                        % 10
+                        == 0) {
+// // Kontrollera om indexet är delbart med 10
+
                         everyTenthPoint.add(point)
-// Add the point to the list
+// lägg till punkter i listan
                     }
 
                 }
@@ -467,6 +469,9 @@ class HomeFragment : Fragment() {
 
             currentDistance += stepDistance
 
+            Toast.makeText(requireContext(),
+                "Distance: $currentDistance km",
+                Toast.LENGTH_SHORT).show()
 
         }
 
@@ -475,7 +480,7 @@ class HomeFragment : Fragment() {
             val marker = Marker(binding.mapOSM)
             marker.position = point
 
-            // You can customize the marker if needed
+            // Anpassa markören
 
             binding.mapOSM.overlays.add(marker)
 
