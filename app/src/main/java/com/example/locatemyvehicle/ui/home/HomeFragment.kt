@@ -91,7 +91,12 @@ class HomeFragment : Fragment() {
                 // Hantera borttagning av sparad plats
                 // Exempel: Ta bort platsen från listan och uppdatera adaptern
                 removeSavedLocation(position)
-            })
+            },
+            onNoteClick = { position ->
+                // Tom funktion för hantering av klick på anteckningsknappen
+                // Om du inte har någon funktionalitet för anteckningsknappen än
+            }
+            )
 
         // Tilldela adaptern till RecyclerView
         binding.recyclerViewSavedLocations.adapter = savedLocationsAdapter

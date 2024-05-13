@@ -53,6 +53,9 @@ class SavedLocationFragment : Fragment() {
                 { position ->
                     // Hantera borttagning av platsen
                     removeLocation(position)
+                },
+                { position ->
+                    // Hantera klick på anteckningsknappen, här kan du göra vad du vill att som ska hända när knappen klickas på
                 }
             )
             recyclerView.adapter = adapter
