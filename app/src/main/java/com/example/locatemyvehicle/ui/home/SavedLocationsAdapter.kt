@@ -14,13 +14,17 @@ import com.example.locatemyvehicle.R
 class SavedLocationsAdapter(private val dataSet: List<String>,
                             private val onItemClick: (String) -> Unit,
                             private val onRemoveClick: (Int) -> Unit,
+                            private val onTakePictureClick: () -> Unit,
+                            private val onShareLocationClick: (String) -> Unit,
                             private val onNoteClick: (Int) -> Unit) :
+RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
 
-    RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewLocationName: TextView = view.findViewById(R.id.textViewLocationName)
         val btnDeleteLocation: ImageButton = view.findViewById(R.id.btnDeleteLocation)
+        val btnTakePicture: ImageButton = view.findViewById(R.id.btnTakePicture)
+        val btnShareLocation: ImageButton = view.findViewById(R.id.btnShareLocation)
         val noteLayout: LinearLayout = view.findViewById(R.id.noteLayout)
         val btnNote: ImageButton = view.findViewById(R.id.btnNote)
         val btnSaveNote: ImageButton = view.findViewById(R.id.btnSaveNote)
@@ -64,7 +68,6 @@ class SavedLocationsAdapter(private val dataSet: List<String>,
             }
 
 
-
             // Spara anteckningen när användaren klickar på "Spara"-knappen
             btnSaveNote.setOnClickListener {
                 val position = adapterPosition
@@ -86,6 +89,19 @@ class SavedLocationsAdapter(private val dataSet: List<String>,
                 updateUI() // Uppdatera UI för att visa ikoner för att skapa anteckning och ta bort platsen
             }
 
+
+            // Sätt en klicklyssnare för att ta en bild
+            btnTakePicture.setOnClickListener {
+                onTakePictureClick()
+            }
+            // Sätt en klicklyssnare för att dela platsen
+            btnShareLocation.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val location = dataSet[position]
+                    onShareLocationClick(location)
+                }
+            }
         }
 
         private fun updateUI() {

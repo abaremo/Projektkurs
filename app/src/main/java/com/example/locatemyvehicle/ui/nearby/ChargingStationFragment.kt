@@ -70,7 +70,10 @@ class ChargingStationFragment : Fragment() {
             val lat = latlon.getDouble(1)
             val lon = latlon.getDouble(0)
             val point = GeoPoint(lat, lon)
-            //val name = ("Vindkraftverk")
+
+            val properties = oneOb.getJSONObject("properties")
+            val chargingName = properties.optString("name", "Unknown charging station")
+
             val markerH = Marker(binding.mapOSM)
             //setMarker(point, name, "vindkraft")
             markerH.position = point
@@ -78,7 +81,7 @@ class ChargingStationFragment : Fragment() {
                 requireContext(),
                 R.drawable.ic_charging_station_onmap
             )
-            markerH.title = "Charging station"
+            markerH.title = chargingName
             markerH.setOnMarkerClickListener { marker, mapOSM ->
                 Toast.makeText(requireContext(), marker.title, Toast.LENGTH_SHORT).show()
                 buildRoad(marker.position)

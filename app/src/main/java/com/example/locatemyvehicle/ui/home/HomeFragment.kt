@@ -1,7 +1,10 @@
 package com.example.locatemyvehicle.ui.home
 
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -51,7 +54,8 @@ class HomeFragment : Fragment() {
     private lateinit var savedLocationsAdapter: SavedLocationsAdapter
     private val viewModel: SharedViewModel by activityViewModels()
     private var savedLocation: GeoPoint? = null
-
+    private val REQUEST_IMAGE_CAPTURE = 1
+    val location = "Some location"
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -92,11 +96,20 @@ class HomeFragment : Fragment() {
                 // Exempel: Ta bort platsen från listan och uppdatera adaptern
                 removeSavedLocation(position)
             },
+            onTakePictureClick = {
+                // Hantera klick på knappen för att ta bild
+                // Exempel: Starta processen för att ta en bild
+                dispatchTakePictureIntent()
+            },
+                    onShareLocationClick = {
+                // Hantera klick på knappen för att ta bild
+                // Exempel: Starta processen för att ta en bild
+                shareLocationWithFriends(location)
+            },
             onNoteClick = { position ->
                 // Tom funktion för hantering av klick på anteckningsknappen
                 // Om du inte har någon funktionalitet för anteckningsknappen än
-            }
-            )
+            })
 
         // Tilldela adaptern till RecyclerView
         binding.recyclerViewSavedLocations.adapter = savedLocationsAdapter
@@ -217,7 +230,24 @@ class HomeFragment : Fragment() {
         }
 
     }
+    fun shareLocationWithFriends(location: String) {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My Shared Location")
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out my location: $location")
+        startActivity(Intent.createChooser(shareIntent, "Share Location"))
+    }
 
+    //Metod för att ta en bild
+    private fun dispatchTakePictureIntent() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        try {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+        } catch (e: ActivityNotFoundException) {
+            // Kameraappen hittades inte
+            Toast.makeText(requireContext(), "Camera app not found", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     private fun removeSavedLocation(position: Int) {
         viewModel.removeSavedLocation(position)
@@ -403,9 +433,9 @@ class HomeFragment : Fragment() {
                         val formatTime = "%.2f".format(road.mDuration / 60)
                         Toast.makeText(
                             requireContext(), "${formatLength} km, " +
-                                    "${formatTime} min", Toast.LENGTH_SHORT
+                                    "${formatTime} min", Toast.LENGTH_LONG
                         ).show()
-                        navigate(startPoint, endPoint, 10)
+                        interpolatePointsAlongPolyline(startPoint, endPoint, 10)
                     }
                 }
             } catch (e: Exception) {
@@ -467,11 +497,6 @@ class HomeFragment : Fragment() {
 
                 currentDistance += stepDistance
 
-                Toast.makeText(
-                    requireContext(),
-                    "Distance: $currentDistance km",
-                    Toast.LENGTH_SHORT
-                ).show()
 
             }
 
@@ -490,46 +515,6 @@ class HomeFragment : Fragment() {
 
         }
 
-
-        private fun navigate(startPoint: GeoPoint, endPoint: GeoPoint, numPoints: Int) {
-            val interpolatedPoints = interpolatePointsAlongPolyline(startPoint, endPoint, numPoints)
-            val bearings = mutableListOf<Double>()
-            for (i in 0 until interpolatedPoints.size - 1) {
-                val currentPoint = interpolatedPoints[i]
-                val nextPoint = interpolatedPoints[i + 1]
-                val bearing = calculateBearing(currentPoint, nextPoint)
-                bearings.add(bearing)
-            }
-
-        }
-
-        // Funktion för att uppdatera gångvägbeskrivningen
-        private fun updateGuidance(
-            startPoint: GeoPoint,
-            endPoint: GeoPoint,
-            interpolatedPoints: List<GeoPoint>,
-            bearings: List<Double>
-        ) {
-            val currentLocation = locationOverlay?.myLocation ?: startPoint
-            val nearestPointIndex = findNearestPointIndex(currentLocation, interpolatedPoints)
-            val targetBearing = bearings[nearestPointIndex]
-
-
-        }
-
-
-        private fun findNearestPointIndex(location: GeoPoint, points: List<GeoPoint>): Int {
-            var nearestIndex = 0
-            var shortestDistance = Double.MAX_VALUE
-            for ((index, point) in points.withIndex()) {
-                val distance = location.distanceToAsDouble(point)
-                if (distance < shortestDistance) {
-                    shortestDistance = distance
-                    nearestIndex = index
-                }
-            }
-            return nearestIndex
-        }
 }
 
 

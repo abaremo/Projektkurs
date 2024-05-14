@@ -110,7 +110,6 @@ class BicycleParkingFragment : Fragment() {
     }
 
 
-
     private fun configurationMap() {
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
         Configuration.getInstance().osmdroidBasePath = requireActivity().filesDir

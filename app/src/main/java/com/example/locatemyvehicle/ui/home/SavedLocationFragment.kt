@@ -1,8 +1,11 @@
 package com.example.locatemyvehicle.ui.home
 
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -54,12 +57,14 @@ class SavedLocationFragment : Fragment() {
                     // Hantera borttagning av platsen
                     removeLocation(position)
                 },
-                { position ->
-                    // Hantera klick på anteckningsknappen, här kan du göra vad du vill att som ska hända när knappen klickas på
-                }
-            )
+                onTakePictureClick = {},
+                onShareLocationClick= { location ->
+                    (requireActivity() as? HomeFragment)?.shareLocationWithFriends(location)
+                },
+                onNoteClick = {})
             recyclerView.adapter = adapter
         }
+
 
 
 
@@ -164,4 +169,5 @@ class SavedLocationFragment : Fragment() {
         // Visa en bekräftelse att historiken har rensats
         Toast.makeText(requireContext(), "History cleared", Toast.LENGTH_SHORT).show()
     }
+
 }
