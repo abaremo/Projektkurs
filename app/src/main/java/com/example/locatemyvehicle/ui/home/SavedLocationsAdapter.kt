@@ -126,7 +126,8 @@ RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val savedLocation = dataSet[position]
-        holder.textViewLocationName.text = savedLocation
+        val locationName = savedLocation.substringBefore(" - ")
+        holder.textViewLocationName.text = locationName
 
     }
 

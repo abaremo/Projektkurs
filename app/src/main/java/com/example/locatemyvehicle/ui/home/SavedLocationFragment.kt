@@ -21,6 +21,7 @@ import com.example.locatemyvehicle.databinding.FragmentSavedLocationBinding
 class SavedLocationFragment : Fragment() {
     private lateinit var binding: FragmentSavedLocationBinding
     private val tempCoordinatesList = mutableListOf<String>()
+    private val savedLocationNames = mutableListOf<String>()
     private var adapter: SavedLocationsAdapter? = null
     private lateinit var sharedPreferences: SharedPreferences
     private val viewModel: SharedViewModel by activityViewModels()
@@ -37,7 +38,7 @@ class SavedLocationFragment : Fragment() {
         val recyclerView = binding.recyclerViewSavedLocations
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val savedLocations = viewModel.savedLocationsList
+       // val savedLocations = viewModel.savedLocationsList
 
         // Hämta SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("SavedLocations", Context.MODE_PRIVATE)
@@ -66,8 +67,6 @@ class SavedLocationFragment : Fragment() {
         }
 
 
-
-
         // Hämta sparade platser vid fragmentets skapande
         loadSavedLocations()
 
@@ -92,6 +91,10 @@ class SavedLocationFragment : Fragment() {
 
                 // Lägg till den sparade platsen i listan och uppdatera adaptern
                 tempCoordinatesList.add(savedLocation)
+
+                // Lägg bara till namnet i savedLocationNames
+                savedLocationNames.add(locationName)
+
 
                 //binding.recyclerViewSavedLocations.adapter = adapter
                 adapter?.notifyDataSetChanged()
@@ -152,6 +155,12 @@ class SavedLocationFragment : Fragment() {
         val savedLocationsSet = sharedPreferences.getStringSet("savedLocations", emptySet())
         //savedLocationsList.clear() // Rensa listan för att bara behålla de sparade platserna
         tempCoordinatesList.addAll(savedLocationsSet ?: emptySet())
+
+        // Lägg bara till namnen från tempCoordinatesList till savedLocationNames
+        for (location in tempCoordinatesList) {
+            val name = location.substringBefore(" - ")
+            savedLocationNames.add(name)
+        }
 
         adapter?.notifyDataSetChanged()
     }
