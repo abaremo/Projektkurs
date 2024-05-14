@@ -46,18 +46,22 @@
             android:id="@+id/imgPTid"
             android:layout_width="131dp"
             android:layout_height="72dp"
-            android:layout_marginEnd="58dp"
 
-            android:layout_marginBottom="14dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="58dp"
+            android:layout_marginBottom="12dp"
             android:src="@drawable/skyltptid_1"
             app:layout_constraintBottom_toTopOf="@+id/tvPTid"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imParkering"
+            app:layout_constraintTop_toBottomOf="@+id/tvPav" />
 
         <TextView
             android:id="@+id/tvPTid"
-            android:layout_width="282dp"
-            android:layout_height="158dp"
+            android:layout_width="283dp"
+            android:layout_height="170dp"
             android:layout_marginStart="60dp"
+            android:layout_marginTop="14dp"
             android:layout_marginEnd="60dp"
             android:layout_marginBottom="21dp"
             android:forceHasOverlappingRendering="true"
@@ -66,7 +70,8 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/imgPdatum"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgPTid">
 
         </TextView>
 
@@ -74,6 +79,7 @@
             android:id="@+id/imgPav"
             android:layout_width="95dp"
             android:layout_height="101dp"
+            android:layout_marginTop="3dp"
             android:layout_marginEnd="94dp"
             android:layout_marginBottom="10dp"
             android:src="@drawable/skyltpav_1"
@@ -87,13 +93,17 @@
             android:id="@+id/tvPav"
             android:layout_width="198dp"
             android:layout_height="116dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginBottom="14dp"
             android:forceHasOverlappingRendering="true"
             android:text="Du kan parkera i upp till två timmar i sträck, alla dagar i veckan men mellan klockan 8-18 på vardagar krävs det att du betalar en parkeringsavgift"
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/imgPTid"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvP2h"
+            app:layout_constraintTop_toBottomOf="@+id/imgPav">
 
         </TextView>
 
@@ -102,23 +112,26 @@
             android:layout_width="118dp"
             android:layout_height="37dp"
             android:layout_marginStart="44dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginTop="13dp"
             android:src="@drawable/skyltf_rbud_1"
             app:layout_constraintBottom_toTopOf="@+id/tvPförbud"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPTid" />
 
         <TextView
             android:id="@+id/tvPförbud"
             android:layout_width="164dp"
             android:layout_height="143dp"
             android:layout_marginStart="32dp"
-            android:layout_marginBottom="172dp"
+            android:layout_marginBottom="180dp"
             android:forceHasOverlappingRendering="true"
             android:text="I det här fallet råder det parkeringsförbud på onsdagar mellan klockan 0-7 och utanför dessa tider är parkering tillåten "
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintEnd_toStartOf="@+id/tvPdatum"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgPförbud">
 
         </TextView>
 
@@ -126,23 +139,28 @@
             android:id="@+id/imgPdatum"
             android:layout_width="58dp"
             android:layout_height="199dp"
+            android:layout_marginStart="58dp"
             android:layout_marginEnd="95dp"
             android:layout_marginBottom="12dp"
             android:src="@drawable/datump_4"
             app:layout_constraintBottom_toTopOf="@+id/tvPdatum"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvPförbud" />
 
         <TextView
             android:id="@+id/tvPdatum"
-            android:layout_width="199dp"
-            android:layout_height="165dp"
+            android:layout_width="187dp"
+            android:layout_height="414dp"
+            android:layout_marginStart="3dp"
             android:layout_marginEnd="13dp"
+            android:layout_marginBottom="1dp"
             android:forceHasOverlappingRendering="true"
             android:text="Förbud att parkera fordon på dag med udda datum. Du kan även hitta denna skylt ute på gatorna som betyder att parkering inte är tillåten på dagar med udda datum på sidan av vägen där skylten är uppsatt. Förbud att parkera fordon på dag med jämna datum enligt denna skylt är parkering förbjuden på dagar med jämnt datum på den sida av vägen som märket är uppsatt på."
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvPförbud">
 
         </TextView>
 
@@ -151,34 +169,43 @@
             android:layout_width="114dp"
             android:layout_height="68dp"
             android:layout_marginStart="44dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="60dp"
             android:layout_marginBottom="18dp"
             android:src="@drawable/skyltptidb_1"
             app:layout_constraintBottom_toTopOf="@+id/tvPTid"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toStartOf="@+id/imgPTid"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvP2h" />
 
         <ImageView
             android:id="@+id/imgP2h"
             android:layout_width="95dp"
             android:layout_height="101dp"
             android:layout_marginStart="44dp"
+            android:layout_marginTop="3dp"
             android:layout_marginBottom="10dp"
             android:src="@drawable/skylt2t_1"
             app:layout_constraintBottom_toTopOf="@+id/tvP2h"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_view" />
 
         <TextView
             android:id="@+id/tvP2h"
-            android:layout_width="167dp"
-            android:layout_height="120dp"
+            android:layout_width="170dp"
+            android:layout_height="132dp"
             android:layout_marginStart="15dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp"
             android:forceHasOverlappingRendering="true"
             android:text="Mellan kl. 8-18 på vardagar är parkering begränsad till högst två timmar och det krävs att du betalar en avgift
 under den perioden Under resten av dygnet är parkering tillåten kostnadsfritt"
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/imParkering"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintEnd_toStartOf="@+id/tvPav"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgP2h">
 
         </TextView>
 
