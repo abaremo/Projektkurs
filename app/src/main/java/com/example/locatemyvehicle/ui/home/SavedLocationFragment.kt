@@ -36,6 +36,8 @@ class SavedLocationFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private val viewModel: SharedViewModel by activityViewModels()
 
+    //för kameran
+    private val REQUEST_IMAGE_CAPTURE = 1
 
 
     override fun onCreateView(
@@ -68,7 +70,13 @@ class SavedLocationFragment : Fragment() {
                     // Hantera borttagning av platsen
                     removeLocation(position)
                 },
-                onTakePictureClick = {},
+                onTakePictureClick = { val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
+                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                    } else {
+                        Toast.makeText(requireContext(), "Camera app not found", Toast.LENGTH_SHORT).show()
+                    }},
+
                 onShareLocationClick= { location ->
                     (requireActivity() as? HomeFragment)?.shareLocationWithFriends(location)
                     val shareIntent = Intent(Intent.ACTION_SEND)
@@ -193,6 +201,17 @@ class SavedLocationFragment : Fragment() {
 
         // Visa en bekräftelse att historiken har rensats
         Toast.makeText(requireContext(), "History cleared", Toast.LENGTH_SHORT).show()
+    }
+
+    //Kamera
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            // Bilden togs framgångsrikt, extrahera thumbnail från data Intent
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            // Använd imageBitmap som thumbnail
+        }
     }
 
 }
