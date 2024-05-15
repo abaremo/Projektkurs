@@ -1,21 +1,31 @@
 package com.example.locatemyvehicle.ui.home
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.locatemyvehicle.R
 import com.example.locatemyvehicle.databinding.FragmentSavedLocationBinding
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class SavedLocationFragment : Fragment() {
@@ -61,6 +71,11 @@ class SavedLocationFragment : Fragment() {
                 onTakePictureClick = {},
                 onShareLocationClick= { location ->
                     (requireActivity() as? HomeFragment)?.shareLocationWithFriends(location)
+                    val shareIntent = Intent(Intent.ACTION_SEND)
+                    shareIntent.type = "text/plain"
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Shared Location")
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, location)
+                    startActivity(Intent.createChooser(shareIntent, "Share Location"))
                 },
                 onNoteClick = {})
             recyclerView.adapter = adapter
@@ -123,6 +138,7 @@ class SavedLocationFragment : Fragment() {
 
         return binding.root
     }
+
 
     // Funktion för att ta bort en sparad plats
     private fun removeLocation(position: Int) {
