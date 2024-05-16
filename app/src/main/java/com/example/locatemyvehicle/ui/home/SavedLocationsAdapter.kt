@@ -1,5 +1,7 @@
 package com.example.locatemyvehicle.ui.home
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +16,13 @@ import com.example.locatemyvehicle.R
 class SavedLocationsAdapter(private val dataSet: List<String>,
                             private val onItemClick: (String) -> Unit,
                             private val onRemoveClick: (Int) -> Unit,
-                            private val onTakePictureClick: () -> Unit,
                             private val onShareLocationClick: (String) -> Unit,
-                            private val onNoteClick: (Int) -> Unit) :
+                            private val onNoteClick: (Int) -> Unit,
+                            private val onTakePictureClick: () -> Unit,
+                            private val context: Context
+):
 RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
-
+    private val sharedPreferences = context.getSharedPreferences("SavedNotes", Context.MODE_PRIVATE)
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewLocationName: TextView = view.findViewById(R.id.textViewLocationName)
@@ -64,6 +68,8 @@ RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
                     onNoteClick(position)
                     Log.d("SavedLocationsAdapter", "Visa anteckningslayout")
                     noteLayout.visibility = View.VISIBLE
+                    val savedNote = loadNote(position)
+                    etNote.setText(savedNote)
                 }
             }
 
@@ -73,12 +79,14 @@ RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val noteText = etNote.text.toString()
+                    saveNotePermanently(position, noteText)
                     // Spara anteckningen på lämpligt sätt, till exempel i en lista
-                    savedNotes[position] = noteText
+                    //savedNotes[position] = noteText
                     // Dölj anteckningsrutan när anteckningen är sparad
                     noteLayout.visibility = View.GONE
                     isNoteMode = false // Användaren lämnar anteckningsläget
                     updateUI() // Uppdatera UI för att visa ikoner för att skapa anteckning och ta bort platsen
+
                 }
             }
 
@@ -103,6 +111,19 @@ RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
                 }
             }
         }
+
+        private fun saveNotePermanently(position: Int, noteText: String) {
+            // Använd SharedPreferences för att spara anteckningen permanent
+            val key = "note_$position"
+            sharedPreferences.edit().putString(key, noteText).apply()
+        }
+        private fun loadNote(position: Int): String {
+            // Läs den sparade anteckningen från SharedPreferences
+            val key = "note_$position"
+            return sharedPreferences.getString(key, "") ?: ""
+        }
+
+
 
         private fun updateUI() {
             if (isNoteMode) {
@@ -134,4 +155,6 @@ RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         return dataSet.size
     }
+
+
 }

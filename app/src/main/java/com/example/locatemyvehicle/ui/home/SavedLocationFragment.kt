@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -70,7 +71,8 @@ class SavedLocationFragment : Fragment() {
                     // Hantera borttagning av platsen
                     removeLocation(position)
                 },
-                onTakePictureClick = { val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                onTakePictureClick = {
+                    val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
                         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                     } else {
@@ -85,7 +87,8 @@ class SavedLocationFragment : Fragment() {
                     shareIntent.putExtra(Intent.EXTRA_TEXT, location)
                     startActivity(Intent.createChooser(shareIntent, "Share Location"))
                 },
-                onNoteClick = {})
+                onNoteClick = {},
+                context = requireContext())
             recyclerView.adapter = adapter
         }
 

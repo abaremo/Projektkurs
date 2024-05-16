@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_saved_location" />
     <item
         android:id="@+id/btnRoad"
-        android:title="Build road"
+        android:title="Show route"
         android:icon="@drawable/street_svgrepo_com" />
 
     <item

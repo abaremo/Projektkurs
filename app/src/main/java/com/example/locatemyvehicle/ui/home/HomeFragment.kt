@@ -96,12 +96,7 @@ class HomeFragment : Fragment() {
                 // Exempel: Ta bort platsen från listan och uppdatera adaptern
                 removeSavedLocation(position)
             },
-            onTakePictureClick = {
-                // Hantera klick på knappen för att ta bild
-                // Exempel: Starta processen för att ta en bild
-                dispatchTakePictureIntent()
-            },
-                    onShareLocationClick = {
+            onShareLocationClick = {
                 // Hantera klick på knappen för att ta bild
                 // Exempel: Starta processen för att ta en bild
                 shareLocationWithFriends(location)
@@ -109,7 +104,10 @@ class HomeFragment : Fragment() {
             onNoteClick = { position ->
                 // Tom funktion för hantering av klick på anteckningsknappen
                 // Om du inte har någon funktionalitet för anteckningsknappen än
-            })
+            },
+            onTakePictureClick = {},
+            context = requireContext()
+        )
 
         // Tilldela adaptern till RecyclerView
         binding.recyclerViewSavedLocations.adapter = savedLocationsAdapter
@@ -230,6 +228,7 @@ class HomeFragment : Fragment() {
         }
 
     }
+    //Metod för att ta en bild
     fun shareLocationWithFriends(location: String) {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"
@@ -238,16 +237,6 @@ class HomeFragment : Fragment() {
         startActivity(Intent.createChooser(shareIntent, "Share Location"))
     }
 
-    //Metod för att ta en bild
-    private fun dispatchTakePictureIntent() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        try {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-        } catch (e: ActivityNotFoundException) {
-            // Kameraappen hittades inte
-            Toast.makeText(requireContext(), "Camera app not found", Toast.LENGTH_SHORT).show()
-        }
-    }
 
     private fun removeSavedLocation(position: Int) {
         viewModel.removeSavedLocation(position)
