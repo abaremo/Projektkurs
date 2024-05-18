@@ -1,10 +1,9 @@
 package com.example.locatemyvehicle.ui.home
 
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -40,15 +39,12 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import org.osmdroid.wms.BuildConfig
 
 class HomeFragment : Fragment() {
-    //private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
     private lateinit var binding: FragmentHomeBinding
     private lateinit var locationOverlay: MyLocationNewOverlay
     private val startPoint = GeoPoint(62.0, 16.0)
     val fragment = this
     private lateinit var mapEventsOverlay: MapEventsOverlay
     private lateinit var lastMarker: Marker
-
-    //private var savedParkingPosition: GeoPoint? = null
     private val tempCoordinateList = mutableListOf<GeoPoint>()
     private var shouldSaveLocation = false
     private lateinit var savedLocationsAdapter: SavedLocationsAdapter
@@ -56,6 +52,9 @@ class HomeFragment : Fragment() {
     private var savedLocation: GeoPoint? = null
     private val REQUEST_IMAGE_CAPTURE = 1
     val location = "Some location"
+    private var roadOverlay: Polyline? = null
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -225,9 +224,69 @@ class HomeFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), "No location saved", Toast.LENGTH_SHORT).show()
             }
+
+            // Add markers with icon based on bearing
+            val path = roadOverlay?.actualPoints
+            val everyTenthPoint = mutableListOf<GeoPoint>()
+
+            for ((index, point) in path?.withIndex()!!) {
+                if (index % 10 == 0) {
+                    everyTenthPoint.add(point)
+                }
+            }
+
+            everyTenthPoint.forEachIndexed { index, point ->
+                val marker = Marker(binding.mapOSM)
+                marker.position = point
+
+                val bearing = if (index > 0) {
+                    calculateBearing(everyTenthPoint[index - 1], point)
+                } else {
+                    calculateBearing(startPoint, point)
+                }
+
+                // Set marker icon based on bearing (add icons to drawable vector assets )
+                when {
+                    bearing in 315.0..360.0 || bearing in 0.0..45.0 -> {
+                        marker.icon = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.straight_icon
+                        )
+                        marker.title = "Straight"
+                    }
+                    bearing in 225.0..315.0 -> {
+                        marker.icon = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.left_arrow
+                        )
+                        marker.title = "Turn left"
+                    }
+                    bearing in 45.0..135.0 -> {
+                        marker.icon = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.right_arrow
+                        )
+                        marker.title = "Turn right"
+                    }
+                    bearing in 135.0..225.0 -> {
+                        marker.icon = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.uturn
+                        )
+                        marker.title = "U-turn"
+                    }
+                }
+                marker.setOnMarkerClickListener { m, _ ->
+                    binding.tvGuide.text = m.title
+                    true
+                }
+                binding.mapOSM.overlays.add(marker)
+            }
+
         }
 
     }
+
     //Metod för att ta en bild
     fun shareLocationWithFriends(location: String) {
         val shareIntent = Intent(Intent.ACTION_SEND)
@@ -401,110 +460,43 @@ class HomeFragment : Fragment() {
                 locationOverlay?.myLocation ?: startPoint,
                 endPoint
             )
-            try {
-                val road = roadManager.getRoad(waypoints)
-                val roadOverlay = RoadManager.buildRoadOverlay(road)
 
-                val bearing = calculateBearing(startPoint, endPoint)
-                val path = roadOverlay?.actualPoints
-                val everyTenthPoint = mutableListOf<GeoPoint>()
+            val road = roadManager.getRoad(waypoints)
+            val roadOverlay = RoadManager.buildRoadOverlay(road)
+            //roadOverlay.color = Color.parseColor("#FF6347") // Ange färg för vägen
+            val path = roadOverlay?.actualPoints
+            val everyTenthPoint = mutableListOf<GeoPoint>()
 
-                for ((index, point) in path?.withIndex()!!) {
-                    if (index % 10 == 0) {
-                        everyTenthPoint.add(point)
-                    }
 
-                    withContext(Dispatchers.Main) {
-                        binding.mapOSM.overlays.add(0, roadOverlay)
-                        binding.mapOSM.invalidate()
-
-                        val formatLength = "%.2f".format(road.mLength)
-                        val formatTime = "%.2f".format(road.mDuration / 60)
-                        Toast.makeText(
-                            requireContext(), "${formatLength} km, " +
-                                    "${formatTime} min", Toast.LENGTH_LONG
-                        ).show()
-                        interpolatePointsAlongPolyline(startPoint, endPoint, 10)
-                    }
+            withContext(Dispatchers.Main) {
+                binding.mapOSM.overlays.add(0, roadOverlay)
+                binding.mapOSM.invalidate()
+                roadOverlay?.let {
+                    this@HomeFragment.roadOverlay = it // Spara roadOverlay-referensen
                 }
-            } catch (e: Exception) {
-                // Hantera undantag här
-                e.printStackTrace()
+
+                val formatLength = "%.2f".format(road.mLength)
+                val formatTime = "%.2f".format(road.mDuration / 60)
+                Toast.makeText(
+                    requireContext(), "${formatLength} km, " +
+                            "${formatTime} min", Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
-
-
-
     fun calculateBearing(startPoint: GeoPoint, endPoint: GeoPoint): Double {
-
-            val lat1 = Math.toRadians(startPoint.latitude)
-
-            val lon1 = Math.toRadians(startPoint.longitude)
-
-            val lat2 = Math.toRadians(endPoint.latitude)
-
-            val lon2 = Math.toRadians(endPoint.longitude)
-
-            val dLon = lon2 - lon1
-
-            val y = Math.sin(dLon) * Math.cos(lat2)
-
-            val x =
-                Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon)
-
-            var bearing = Math.atan2(y, x)
-
-            bearing = Math.toDegrees(bearing)
-
-            bearing = (bearing + 360) % 360
-
-            return bearing
-
-        }
-
-        fun interpolatePointsAlongPolyline(
-            startPoint:
-            GeoPoint, endPoint:
-            GeoPoint, numPoints:
-            Int
-        ):
-                List<GeoPoint> {
-            val marker = Marker(binding.mapOSM)
-
-
-            val points = mutableListOf<GeoPoint>()
-            val totalDistance = startPoint.distanceToAsDouble(endPoint)
-            val stepDistance = totalDistance / (numPoints + 1)
-            val bearing = startPoint.bearingTo(endPoint)
-            var currentDistance = stepDistance
-            repeat(numPoints)
-            {
-                val interpolatedPoint = startPoint.destinationPoint(currentDistance, bearing)
-
-                points.add(interpolatedPoint)
-
-                currentDistance += stepDistance
-
-
-            }
-
-            points.forEach()
-            { point ->
-                val marker = Marker(binding.mapOSM)
-                marker.position = point
-
-                // Anpassa markören
-
-                binding.mapOSM.overlays.add(marker)
-
-            }
-
-            return points
-
-        }
-
+        val lat1 = Math.toRadians(startPoint.latitude)
+        val lon1 = Math.toRadians(startPoint.longitude)
+        val lat2 = Math.toRadians(endPoint.latitude)
+        val lon2 = Math.toRadians(endPoint.longitude)
+        val dLon = lon2 - lon1
+        val y = Math.sin(dLon) * Math.cos(lat2)
+        val x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon)
+        var bearing = Math.atan2(y, x)
+        bearing = Math.toDegrees(bearing)
+        bearing = (bearing + 360) % 360
+        return bearing
+    }
 }
-
 
 

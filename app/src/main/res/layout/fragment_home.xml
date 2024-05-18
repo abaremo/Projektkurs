@@ -62,6 +62,7 @@
         android:layout_gravity="end|top"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="74dp"
+        android:textStyle="bold"
         android:text="Guide" />
 
     <!-- Knapp -->
