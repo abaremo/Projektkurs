@@ -58,11 +58,6 @@
             android:id="@+id/action_savedlocationFragment_to_homeFragment"
             app:destination="@id/nav_home" />
 
-        <!-- Om du har andra fragment att navigera till, lägg till liknande action-taggar här -->
-
-
-
-
 
     <fragment
         android:id="@+id/fuelFragment"

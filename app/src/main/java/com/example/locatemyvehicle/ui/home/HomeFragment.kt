@@ -1,6 +1,7 @@
 package com.example.locatemyvehicle.ui.home
 
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -135,8 +136,8 @@ class HomeFragment : Fragment() {
                 R.id.btnRoad -> {
                     // Klicklyssnare för knappen "Road"
                     if (savedLocation != null) {
-                        // Om sista markören är initierad, bygg vägen
-                        buildRoad(savedLocation!!)
+                        // Om sista markören är initierad, visa en dialogruta för att välja transportsätt
+                        showTransportSelectionDialog(savedLocation!!)
                     } else {
                         Toast.makeText(
                             requireContext(),
@@ -220,7 +221,7 @@ class HomeFragment : Fragment() {
                 binding.tvDestination.text = "Destination: Lat: $destLat, Long: $destLong"
 
                 // Bygg vägen och navigera
-                buildRoad(savedLocation!!)
+                showTransportSelectionDialog(savedLocation!!)
             } else {
                 Toast.makeText(requireContext(), "No location saved", Toast.LENGTH_SHORT).show()
             }
@@ -448,14 +449,20 @@ class HomeFragment : Fragment() {
     }
 
     /// build road
-    private fun buildRoad(endPoint: GeoPoint) {
+    private fun buildRoad(endPoint: GeoPoint,  meanOfTransport: String) {
         binding.mapOSM.overlays.removeAll { it is Polyline }
         CoroutineScope(Dispatchers.IO).launch {
             val roadManager = OSRMRoadManager(
                 requireContext(),
                 System.getProperty("http.agent")
             )
-            roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
+            //roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
+            when (meanOfTransport) {
+                "foot" -> roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
+                "bike" -> roadManager.setMean(OSRMRoadManager.MEAN_BY_BIKE)
+                "car" -> roadManager.setMean(OSRMRoadManager.MEAN_BY_CAR)
+                // Lägg till fler transportsätt här om det behövs
+            }
             val waypoints = arrayListOf<GeoPoint>(
                 locationOverlay?.myLocation ?: startPoint,
                 endPoint
@@ -463,7 +470,7 @@ class HomeFragment : Fragment() {
 
             val road = roadManager.getRoad(waypoints)
             val roadOverlay = RoadManager.buildRoadOverlay(road)
-            //roadOverlay.color = Color.parseColor("#FF6347") // Ange färg för vägen
+            roadOverlay.color = Color.BLACK
             val path = roadOverlay?.actualPoints
             val everyTenthPoint = mutableListOf<GeoPoint>()
 
@@ -483,6 +490,25 @@ class HomeFragment : Fragment() {
                 ).show()
             }
         }
+    }
+
+    private fun showTransportSelectionDialog(endPoint: GeoPoint) {
+        val transports = arrayOf("Foot", "Bike", "Car") // Lägg till fler alternativ om det behövs
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Choose Transportation")
+            .setItems(transports) { _, which ->
+                // Anropa buildRoad med det valda transportsättet
+                when (which) {
+                    0 -> buildRoad(endPoint, "foot")
+                    1 -> buildRoad(endPoint, "bike")
+                    2 -> buildRoad(endPoint, "car")
+                    // Lägg till fler alternativ här om det behövs
+                }
+            }
+
+        val dialog = builder.create()
+        dialog.show()
     }
     fun calculateBearing(startPoint: GeoPoint, endPoint: GeoPoint): Double {
         val lat1 = Math.toRadians(startPoint.latitude)

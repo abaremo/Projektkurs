@@ -32,8 +32,6 @@ class SavedLocationFragment : Fragment() {
 
     //för kameran
     private val REQUEST_IMAGE_CAPTURE = 1
-    private val REQUEST_IMAGE_PICK = 1
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,17 +46,6 @@ class SavedLocationFragment : Fragment() {
 
         // Hämta SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("SavedLocations", Context.MODE_PRIVATE)
-
-
-        val imageUriString = sharedPreferences.getString("selected_image_uri", null)
-
-        if (imageUriString != null) {
-            val imageUri = Uri.parse(imageUriString)
-            displayImage(imageUri)
-        }
-
-
-
 
 
         // Kontrollera om adaptern redan är instansierad innan du initialiserar en ny
@@ -77,11 +64,11 @@ class SavedLocationFragment : Fragment() {
                     removeLocation(position)
                 },
                 onTakePictureClick = {
-                    val pickImageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                    if (pickImageIntent.resolveActivity(requireActivity().packageManager) != null) {
-                        startActivityForResult(pickImageIntent, REQUEST_IMAGE_PICK)
+                    val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
+                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                     } else {
-                        Toast.makeText(requireContext(), "Gallery app not found", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Camera app not found", Toast.LENGTH_SHORT).show()
                     }},
 
                 onShareLocationClick= { location ->
@@ -215,25 +202,11 @@ class SavedLocationFragment : Fragment() {
     //Kamera
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
-            val selectedImageUri: Uri? = data?.data
-            if (selectedImageUri != null) {
-                saveImageUriToPreferences(selectedImageUri)
-                displayImage(selectedImageUri)
-            }
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            // Bilden togs framgångsrikt, extrahera thumbnail från data Intent
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            // Använd imageBitmap som thumbnail
         }
-
     }
 
-    private fun saveImageUriToPreferences(uri: Uri) {
-        val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("selected_image_uri", uri.toString())
-        editor.apply()
-    }
-
-    private fun displayImage(uri: Uri) {
-        val imageView: ImageView = view?.findViewById(R.id.imageView) ?: return
-        imageView.setImageURI(uri)
-    }
 }

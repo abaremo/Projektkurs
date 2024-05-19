@@ -1,6 +1,8 @@
 package com.example.locatemyvehicle.ui.nearby
 
+import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -81,7 +83,7 @@ class BicycleParkingFragment : Fragment() {
             markerH.title = "Bicycle parking"
             markerH.setOnMarkerClickListener { marker, mapOSM ->
                 Toast.makeText(requireContext(), marker.title, Toast.LENGTH_SHORT).show()
-                buildRoad(marker.position)
+                showTransportSelectionDialog(marker.position)
                 return@setOnMarkerClickListener true
             }
             binding.mapOSM.overlays.add(markerH)
@@ -161,7 +163,7 @@ class BicycleParkingFragment : Fragment() {
     }
 
     /// build road
-    private fun buildRoad(endPoint: GeoPoint) {
+    private fun buildRoad(endPoint: GeoPoint, meanOfTransport: String ) {
         binding.mapOSM.overlays.removeAll { it is Polyline }
         CoroutineScope(Dispatchers.IO).launch {
             val roadManager = OSRMRoadManager(
@@ -169,7 +171,14 @@ class BicycleParkingFragment : Fragment() {
                 System.getProperty("http.agent")
             )
 // Hur reser du i rutten, cykel, gå, bil
-            roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
+            //roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
+
+            when (meanOfTransport) {
+                "foot" -> roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
+                "bike" -> roadManager.setMean(OSRMRoadManager.MEAN_BY_BIKE)
+                "car" -> roadManager.setMean(OSRMRoadManager.MEAN_BY_CAR)
+                // Lägg till fler transportsätt här om det behövs
+            }
             val waypoints =
                 arrayListOf<GeoPoint>(
                     locationOverlay?.myLocation ?: startPoint,
@@ -178,6 +187,7 @@ class BicycleParkingFragment : Fragment() {
             try {
                 val road = roadManager.getRoad(waypoints)
                 val roadOverlay = RoadManager.buildRoadOverlay(road)
+                roadOverlay.color = Color.BLACK
                 withContext(Dispatchers.Main) {
                     binding.mapOSM.overlays.add(0, roadOverlay)
                     binding.mapOSM.invalidate()
@@ -194,5 +204,24 @@ class BicycleParkingFragment : Fragment() {
 // Hantera fel här
             }
         }
+    }
+
+    private fun showTransportSelectionDialog(endPoint: GeoPoint) {
+        val transports = arrayOf("Foot", "Bike", "Car") // Lägg till fler alternativ om det behövs
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Choose Transportation")
+            .setItems(transports) { _, which ->
+                // Anropa buildRoad med det valda transportsättet
+                when (which) {
+                    0 -> buildRoad(endPoint, "foot")
+                    1 -> buildRoad(endPoint, "bike")
+                    2 -> buildRoad(endPoint, "car")
+                    // Lägg till fler alternativ här om det behövs
+                }
+            }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }
