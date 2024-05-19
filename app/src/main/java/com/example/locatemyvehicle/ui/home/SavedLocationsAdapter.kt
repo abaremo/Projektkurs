@@ -1,7 +1,6 @@
 package com.example.locatemyvehicle.ui.home
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.locatemyvehicle.R
+
+
 
 class SavedLocationsAdapter(private val dataSet: List<String>,
                             private val onItemClick: (String) -> Unit,
@@ -102,6 +103,7 @@ RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
             btnTakePicture.setOnClickListener {
                 onTakePictureClick()
             }
+
             // Sätt en klicklyssnare för att dela platsen
             btnShareLocation.setOnClickListener {
                 val position = adapterPosition

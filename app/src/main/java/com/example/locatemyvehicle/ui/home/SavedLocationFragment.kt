@@ -1,32 +1,25 @@
 package com.example.locatemyvehicle.ui.home
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.locatemyvehicle.R
 import com.example.locatemyvehicle.databinding.FragmentSavedLocationBinding
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+
 
 
 class SavedLocationFragment : Fragment() {
@@ -39,7 +32,7 @@ class SavedLocationFragment : Fragment() {
 
     //för kameran
     private val REQUEST_IMAGE_CAPTURE = 1
-
+    private val REQUEST_IMAGE_PICK = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +48,18 @@ class SavedLocationFragment : Fragment() {
 
         // Hämta SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("SavedLocations", Context.MODE_PRIVATE)
+
+
+        val imageUriString = sharedPreferences.getString("selected_image_uri", null)
+
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
+            displayImage(imageUri)
+        }
+
+
+
+
 
         // Kontrollera om adaptern redan är instansierad innan du initialiserar en ny
         if (adapter == null) {
@@ -72,11 +77,11 @@ class SavedLocationFragment : Fragment() {
                     removeLocation(position)
                 },
                 onTakePictureClick = {
-                    val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
-                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                    val pickImageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    if (pickImageIntent.resolveActivity(requireActivity().packageManager) != null) {
+                        startActivityForResult(pickImageIntent, REQUEST_IMAGE_PICK)
                     } else {
-                        Toast.makeText(requireContext(), "Camera app not found", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Gallery app not found", Toast.LENGTH_SHORT).show()
                     }},
 
                 onShareLocationClick= { location ->
@@ -103,6 +108,7 @@ class SavedLocationFragment : Fragment() {
         btnClear.setOnClickListener {
             clearHistory()
         }
+
 
         binding.btnSaveLocationName.setOnClickListener {
             val locationName = binding.etLocationName.text.toString()
@@ -209,12 +215,25 @@ class SavedLocationFragment : Fragment() {
     //Kamera
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            // Bilden togs framgångsrikt, extrahera thumbnail från data Intent
-            val imageBitmap = data?.extras?.get("data") as Bitmap
-            // Använd imageBitmap som thumbnail
+        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
+            val selectedImageUri: Uri? = data?.data
+            if (selectedImageUri != null) {
+                saveImageUriToPreferences(selectedImageUri)
+                displayImage(selectedImageUri)
+            }
         }
+
     }
 
+    private fun saveImageUriToPreferences(uri: Uri) {
+        val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("selected_image_uri", uri.toString())
+        editor.apply()
+    }
+
+    private fun displayImage(uri: Uri) {
+        val imageView: ImageView = view?.findViewById(R.id.imageView) ?: return
+        imageView.setImageURI(uri)
+    }
 }
