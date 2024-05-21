@@ -430,7 +430,7 @@ class HomeFragment : Fragment() {
         )
         locationOverlay.enableMyLocation()
         val imageDraw =
-            ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_parkinglocation)!!
+            ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_locate_me)!!
                 .toBitmap()
         locationOverlay.setPersonIcon(imageDraw)
         locationOverlay.setDirectionIcon(imageDraw)
@@ -470,7 +470,6 @@ class HomeFragment : Fragment() {
 
             val road = roadManager.getRoad(waypoints)
             val roadOverlay = RoadManager.buildRoadOverlay(road)
-            roadOverlay.color = Color.BLACK
             val path = roadOverlay?.actualPoints
             val everyTenthPoint = mutableListOf<GeoPoint>()
 
