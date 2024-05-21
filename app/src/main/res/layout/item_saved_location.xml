@@ -68,14 +68,13 @@
     </LinearLayout>
 
     <!-- Kameraknapp -->
-
-    <!-- Knapp för att dela plats med vänner -->
     <ImageButton
         android:id="@+id/btnTakePicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_camera" />
 
+    <!-- Knapp för att dela plats med vänner -->
     <ImageButton
         android:id="@+id/btnShareLocation"
         android:layout_width="wrap_content"

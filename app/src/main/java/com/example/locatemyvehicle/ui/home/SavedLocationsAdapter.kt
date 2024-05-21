@@ -12,8 +12,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.locatemyvehicle.R
 
-
-
 class SavedLocationsAdapter(private val dataSet: List<String>,
                             private val onItemClick: (String) -> Unit,
                             private val onRemoveClick: (Int) -> Unit,
@@ -35,10 +33,7 @@ RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
         val btnSaveNote: ImageButton = view.findViewById(R.id.btnSaveNote)
         val btnCloseNote: ImageButton = view.findViewById(R.id.btnCloseNote)
         val etNote: EditText = view.findViewById(R.id.etNote)
-        var savedNotes: MutableList<String> = MutableList(dataSet.size) { "" }
-
         var isNoteMode: Boolean = false
-
 
         init {
             // Sätt en klicklyssnare för varje sparad plats
@@ -74,20 +69,16 @@ RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
                 }
             }
 
-
             // Spara anteckningen när användaren klickar på "Spara"-knappen
             btnSaveNote.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val noteText = etNote.text.toString()
                     saveNotePermanently(position, noteText)
-                    // Spara anteckningen på lämpligt sätt, till exempel i en lista
-                    //savedNotes[position] = noteText
                     // Dölj anteckningsrutan när anteckningen är sparad
                     noteLayout.visibility = View.GONE
                     isNoteMode = false // Användaren lämnar anteckningsläget
                     updateUI() // Uppdatera UI för att visa ikoner för att skapa anteckning och ta bort platsen
-
                 }
             }
 
@@ -97,7 +88,6 @@ RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
                 isNoteMode = false // Användaren lämnar anteckningsläget
                 updateUI() // Uppdatera UI för att visa ikoner för att skapa anteckning och ta bort platsen
             }
-
 
             // Sätt en klicklyssnare för att ta en bild
             btnTakePicture.setOnClickListener {
@@ -125,8 +115,6 @@ RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
             return sharedPreferences.getString(key, "") ?: ""
         }
 
-
-
         private fun updateUI() {
             if (isNoteMode) {
                 // Dölj ikoner för att skapa anteckning och ta bort platsen
@@ -140,8 +128,6 @@ RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
         }
     }
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_saved_location, parent, false)
@@ -151,12 +137,9 @@ RecyclerView.Adapter<SavedLocationsAdapter.ViewHolder>() {
         val savedLocation = dataSet[position]
         val locationName = savedLocation.substringBefore(" - ")
         holder.textViewLocationName.text = locationName
-
     }
 
     override fun getItemCount(): Int {
         return dataSet.size
     }
-
-
 }

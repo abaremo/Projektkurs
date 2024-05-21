@@ -19,7 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
         <ImageButton
             android:id="@+id/fuelButton"
             android:layout_width="80dp"
@@ -47,7 +46,6 @@
         app:layout_constraintHorizontal_bias="0.598"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/fuelButton">
-
     </TextView>
 
     <ImageButton
@@ -74,7 +72,6 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/restaurantButton">
-
     </TextView>
 
     <ImageButton
@@ -90,7 +87,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/top_view" />
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -104,7 +100,6 @@
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/parkingButton">
-
     </TextView>
 
     <ImageButton
@@ -133,7 +128,6 @@
         app:layout_constraintHorizontal_bias="0.424"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/restaurantButton">
-
     </TextView>
 
     <ImageButton
@@ -162,7 +156,6 @@
         app:layout_constraintHorizontal_bias="0.636"
         app:layout_constraintStart_toEndOf="@+id/parkingButton"
         app:layout_constraintTop_toTopOf="@+id/parkingButton">
-
     </TextView>
 
     <ImageButton
@@ -189,7 +182,6 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/fuelButton"
         app:layout_constraintTop_toTopOf="@+id/chargingButton">
-
     </TextView>
 
     <TextView
@@ -205,8 +197,6 @@
         app:layout_constraintEnd_toEndOf="@+id/top_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
     </TextView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

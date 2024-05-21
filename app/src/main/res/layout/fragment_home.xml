@@ -9,7 +9,6 @@
     android:background="@android:color/transparent"
     android:clipToPadding="true">
 
-
     <org.osmdroid.views.MapView
         android:id="@+id/mapOSM"
         android:layout_width="410dp"
@@ -18,12 +17,9 @@
         android:layout_marginEnd="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-
-
     </org.osmdroid.views.MapView>
 
     <!-- Lägg till RecyclerView för sparade platser -->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSavedLocations"
         android:layout_width="match_parent"
@@ -90,7 +86,6 @@
         android:onClick="toggleMapType"
         android:src="@drawable/ic_layer" />
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addMarkers"
         android:layout_width="wrap_content"
@@ -101,9 +96,7 @@
         android:src="@drawable/ic_parkinglocation"
         android:tooltipText="Click on the map to add markers"
         app:maxImageSize="40dp">
-
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -124,9 +117,5 @@
             app:menu="@menu/main">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>
-
-
     </com.google.android.material.bottomappbar.BottomAppBar>
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

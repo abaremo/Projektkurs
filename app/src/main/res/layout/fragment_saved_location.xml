@@ -27,6 +27,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:layout_marginBottom="16dp"/>
+
     <EditText
         android:id="@+id/etLocationName"
         android:layout_width="match_parent"
@@ -54,13 +55,11 @@
         android:text="Clear saved locations"
         android:textColor="#FFFFFF" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSavedLocations"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="16dp"/>
-
 
 </LinearLayout>

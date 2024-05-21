@@ -55,7 +55,6 @@ class HomeFragment : Fragment() {
     val location = "Some location"
     private var roadOverlay: Polyline? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -112,13 +111,12 @@ class HomeFragment : Fragment() {
         // Tilldela adaptern till RecyclerView
         binding.recyclerViewSavedLocations.adapter = savedLocationsAdapter
 
-
         // Sätt klicklyssnare för hela verktygsfältet
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.btnSaveLocation -> {
                     if (::lastMarker.isInitialized) {
-// Hämta den senaste markörens koordinater och lägg till i listan
+        // Hämta den senaste markörens koordinater och lägg till i listan
                         val lastMarkerPosition = lastMarker.position
                         tempCoordinateList.add(lastMarkerPosition)
                         Toast.makeText(requireContext(), "Location saved", Toast.LENGTH_SHORT)
@@ -162,7 +160,7 @@ class HomeFragment : Fragment() {
                 }
 
                 R.id.btnGetBack -> {
-// Lägg till hantering för knappen "Get back" här
+        // Lägg till hantering för knappen "Get back" här
                     binding.mapOSM.controller.animateTo(startPoint)
                     binding.mapOSM.controller.setZoom(6.5)
 
@@ -170,16 +168,14 @@ class HomeFragment : Fragment() {
                 }
 
                 R.id.btnPosition -> {
-// Lägg till hantering för knappen "Position" här
+        // Lägg till hantering för knappen "Position" här
                     binding.mapOSM.controller.animateTo(locationOverlay.myLocation)
                     binding.mapOSM.controller.setZoom(17)
                     true
                 }
-
                 else -> false
             }
         }
-
 
         mapEventsOverlay = MapEventsOverlay(object : MapEventsReceiver {
             override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean {
@@ -187,11 +183,9 @@ class HomeFragment : Fragment() {
                     binding.mapOSM.overlays.removeAll { it is Marker } //gör att det inte blir markörer överallt
                     addMarker(p)
                     return true
-
                 }
                 return false
             }
-
             override fun longPressHelper(p: GeoPoint?): Boolean {
                 return false
             }
@@ -283,9 +277,7 @@ class HomeFragment : Fragment() {
                 }
                 binding.mapOSM.overlays.add(marker)
             }
-
         }
-
     }
 
     //Metod för att ta en bild
@@ -296,7 +288,6 @@ class HomeFragment : Fragment() {
         shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out my location: $location")
         startActivity(Intent.createChooser(shareIntent, "Share Location"))
     }
-
 
     private fun removeSavedLocation(position: Int) {
         viewModel.removeSavedLocation(position)
@@ -347,7 +338,6 @@ class HomeFragment : Fragment() {
         binding.mapOSM.invalidate()
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(
             R.menu.main,
@@ -369,10 +359,7 @@ class HomeFragment : Fragment() {
         binding.mapOSM.overlays.add(marker)
         lastMarker = marker
         binding.mapOSM.invalidate()
-
-        //buildRoad(marker.position)
     }
-
 
     private fun configurationMap() {
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
@@ -397,20 +384,19 @@ class HomeFragment : Fragment() {
 
     private fun setZoomMultiTouch(b: Boolean) {
         binding.mapOSM.setMultiTouchControls(b)
-
         binding.mapOSM.overlays.add(RotationGestureOverlay(binding.mapOSM))
     }
 
     private fun getLocation(zoom: Boolean = false) {
-// Begära behörighet för åtkomst till fina platstjänster
+    // Begära behörighet för åtkomst till fina platstjänster
         val requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-// Om tillståndet beviljades, skapa och konfigurera MyLocationNewOverlay
+    // Om tillståndet beviljades, skapa och konfigurera MyLocationNewOverlay
                 createLocationOverlay(zoom)
             } else {
-// Om tillståndet inte beviljades, hantera det här
+    // Om tillståndet inte beviljades, hantera det här
                 Toast.makeText(
                     fragment.requireContext(),
                     "Location permission denied.",
@@ -418,8 +404,7 @@ class HomeFragment : Fragment() {
                 ).show()
             }
         }
-
-// Begära platsbehörighet
+    // Begära platsbehörighet
         requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
@@ -436,7 +421,7 @@ class HomeFragment : Fragment() {
         locationOverlay.setDirectionIcon(imageDraw)
         binding.mapOSM.overlays.add(locationOverlay)
 
-// Om zoom är true, flytta till användarens plats och zooma in
+    // Om zoom är true, flytta till användarens plats och zooma in
         if (zoom) {
             locationOverlay.run {
                 val myLocation = this.myLocation
@@ -456,7 +441,6 @@ class HomeFragment : Fragment() {
                 requireContext(),
                 System.getProperty("http.agent")
             )
-            //roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
             when (meanOfTransport) {
                 "foot" -> roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
                 "bike" -> roadManager.setMean(OSRMRoadManager.MEAN_BY_BIKE)
@@ -472,7 +456,6 @@ class HomeFragment : Fragment() {
             val roadOverlay = RoadManager.buildRoadOverlay(road)
             val path = roadOverlay?.actualPoints
             val everyTenthPoint = mutableListOf<GeoPoint>()
-
 
             withContext(Dispatchers.Main) {
                 binding.mapOSM.overlays.add(0, roadOverlay)
@@ -493,7 +476,6 @@ class HomeFragment : Fragment() {
 
     private fun showTransportSelectionDialog(endPoint: GeoPoint) {
         val transports = arrayOf("Foot", "Bike", "Car") // Lägg till fler alternativ om det behövs
-
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Choose Transportation")
             .setItems(transports) { _, which ->
@@ -523,5 +505,3 @@ class HomeFragment : Fragment() {
         return bearing
     }
 }
-
-

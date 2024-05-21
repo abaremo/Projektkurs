@@ -40,7 +40,6 @@ class BicycleParkingFragment : Fragment() {
     private val startPoint = GeoPoint(62.0, 16.0)
     val fragment = this
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,18 +47,14 @@ class BicycleParkingFragment : Fragment() {
     ): View? {
         binding = FragmentBicycleparkingBinding.inflate(inflater, container, false)
         return binding.root
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         configurationMap()
         initMap()
         setZoomMultiTouch(true) //FUNKAR EJ
         getLocation(true)
-
 
         val jsonObject = loadJSONFromAsset(requireContext(), "bicycle_parking.json")
         val featuresH = jsonObject.getJSONArray("features")
@@ -67,14 +62,12 @@ class BicycleParkingFragment : Fragment() {
             val oneOb = featuresH.getJSONObject(i)
             val geometry = oneOb.getJSONObject("geometry")
             val latlon = geometry.getJSONArray("coordinates")
-            //get to coordinates in json and set the first coordinate to lon and
-            //the second to lat
+            //get to coordinates in json and set the first coordinate to lon and the second to lat
             val lat = latlon.getDouble(1)
             val lon = latlon.getDouble(0)
             val point = GeoPoint(lat, lon)
-            //val name = ("Vindkraftverk")
             val markerH = Marker(binding.mapOSM)
-            //setMarker(point, name, "vindkraft")
+
             markerH.position = point
             markerH.icon = ContextCompat.getDrawable(
                 requireContext(),
@@ -91,10 +84,6 @@ class BicycleParkingFragment : Fragment() {
         }
     }
 
-
-
-
-
     //return JSONObject of input .json file. It holds all rows of the geojson.
     private fun loadJSONFromAsset(context: Context, fileName: String):
             JSONObject {
@@ -108,9 +97,7 @@ class BicycleParkingFragment : Fragment() {
             return JSONObject() // Return empty JSONObject in case of error
         }
         return JSONObject(jsonString)
-
     }
-
 
     private fun configurationMap() {
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
@@ -125,25 +112,23 @@ class BicycleParkingFragment : Fragment() {
 
     private fun setZoomMultiTouch(b: Boolean) {
         binding.mapOSM.setMultiTouchControls(b)
-
         binding.mapOSM.overlays.add(RotationGestureOverlay(binding.mapOSM))
     }
 
     private fun getLocation(zoom: Boolean = false) {
-// Begära behörighet för åtkomst till fina platstjänster
+    // Begära behörighet för åtkomst till fina platstjänster
         val requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-// Om tillståndet beviljades, skapa och konfigurera MyLocationNewOverlay
+    // Om tillståndet beviljades, skapa och konfigurera MyLocationNewOverlay
                 createLocationOverlay(zoom)
             } else {
-// Om tillståndet inte beviljades, hantera det här
+    // Om tillståndet inte beviljades, hantera det här
                 Toast.makeText(fragment.requireContext(), "Platsbehörighet nekades.", Toast.LENGTH_SHORT).show()
             }
         }
-
-// Begära platsbehörighet
+    // Begära platsbehörighet
         requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
@@ -153,7 +138,6 @@ class BicycleParkingFragment : Fragment() {
             binding.mapOSM
         )
         locationOverlay.enableMyLocation()
-        //locationOverlay.enableFollowLocation()
         val imageDraw =
             ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_parkinglocation)!!
                 .toBitmap()
@@ -170,9 +154,7 @@ class BicycleParkingFragment : Fragment() {
                 requireContext(),
                 System.getProperty("http.agent")
             )
-// Hur reser du i rutten, cykel, gå, bil
-            //roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
-
+            // Hur reser du i rutten, cykel, gå, bil
             when (meanOfTransport) {
                 "foot" -> roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
                 "bike" -> roadManager.setMean(OSRMRoadManager.MEAN_BY_BIKE)
@@ -201,14 +183,13 @@ class BicycleParkingFragment : Fragment() {
                 }
             } catch (e: Exception) {
                 Log.e("RoadBuildingError", "Error building road: ${e.message}")
-// Hantera fel här
+            // Hantera fel här
             }
         }
     }
 
     private fun showTransportSelectionDialog(endPoint: GeoPoint) {
         val transports = arrayOf("Foot", "Bike", "Car") // Lägg till fler alternativ om det behövs
-
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Choose Transportation")
             .setItems(transports) { _, which ->

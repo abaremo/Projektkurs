@@ -40,7 +40,6 @@ class HotelFragment : Fragment() {
     private val startPoint = GeoPoint(62.0, 16.0)
     val fragment = this
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,18 +47,14 @@ class HotelFragment : Fragment() {
     ): View? {
         binding = FragmentHotelBinding.inflate(inflater, container, false)
         return binding.root
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         configurationMap()
         initMap()
         setZoomMultiTouch(true) //FUNKAR EJ
         getLocation(true)
-
 
         val jsonObject = loadJSONFromAsset(requireContext(), "hotel.json")
         val featuresH = jsonObject.getJSONArray("features")
@@ -67,15 +62,14 @@ class HotelFragment : Fragment() {
             val oneOb = featuresH.getJSONObject(i)
             val geometry = oneOb.getJSONObject("geometry")
             val latlon = geometry.getJSONArray("coordinates")
-            //get to coordinates in json and set the first coordinate to lon and
-            //the second to lat
+            //get to coordinates in json and set the first coordinate to lon and the second to lat
             val lat = latlon.getDouble(1)
             val lon = latlon.getDouble(0)
             val point = GeoPoint(lat, lon)
             val properties = oneOb.getJSONObject("properties")
             val hotelName = properties.optString("name", "Unknown Hotel")
-
             val markerH = Marker(binding.mapOSM)
+
             markerH.position = point
             markerH.icon = ContextCompat.getDrawable(
                 requireContext(),
@@ -92,11 +86,6 @@ class HotelFragment : Fragment() {
         }
     }
 
-
-
-
-
-
     //return JSONObject of input .json file. It holds all rows of the geojson.
     private fun loadJSONFromAsset(context: Context, fileName: String):
             JSONObject {
@@ -110,11 +99,7 @@ class HotelFragment : Fragment() {
             return JSONObject() // Return empty JSONObject in case of error
         }
         return JSONObject(jsonString)
-
     }
-
-
-
 
     private fun configurationMap() {
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
@@ -129,25 +114,24 @@ class HotelFragment : Fragment() {
 
     private fun setZoomMultiTouch(b: Boolean) {
         binding.mapOSM.setMultiTouchControls(b)
-
         binding.mapOSM.overlays.add(RotationGestureOverlay(binding.mapOSM))
     }
 
     private fun getLocation(zoom: Boolean = false) {
-// Begära behörighet för åtkomst till fina platstjänster
+    // Begära behörighet för åtkomst till fina platstjänster
         val requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-// Om tillståndet beviljades, skapa och konfigurera MyLocationNewOverlay
+    // Om tillståndet beviljades, skapa och konfigurera MyLocationNewOverlay
                 createLocationOverlay(zoom)
             } else {
-// Om tillståndet inte beviljades, hantera det här
+    // Om tillståndet inte beviljades, hantera det här
                 Toast.makeText(fragment.requireContext(), "Platsbehörighet nekades.", Toast.LENGTH_SHORT).show()
             }
         }
 
-// Begära platsbehörighet
+    // Begära platsbehörighet
         requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
@@ -165,7 +149,7 @@ class HotelFragment : Fragment() {
         locationOverlay.setDirectionIcon(imageDraw)
         binding.mapOSM.overlays.add(locationOverlay)
 
-// Om zoom är true, flytta till användarens plats och zooma in
+    // Om zoom är true, flytta till användarens plats och zooma in
         if (zoom) {
             locationOverlay.run {
                 val myLocation = this.myLocation
@@ -173,7 +157,7 @@ class HotelFragment : Fragment() {
                     binding.mapOSM.controller.animateTo(myLocation)
                     binding.mapOSM.controller.setZoom(17)
                 } else {
-// Om användarens plats inte är tillgänglig, hantera det här
+    // Om användarens plats inte är tillgänglig, hantera det här
                     Toast.makeText(fragment.requireContext(), "Användarens plats är inte tillgänglig.", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -187,9 +171,7 @@ class HotelFragment : Fragment() {
                 requireContext(),
                 System.getProperty("http.agent")
             )
-// Hur reser du i rutten, cykel, gå, bil
-            //roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
-
+    // Hur reser du i rutten, cykel, gå, bil
             when (meanOfTransport) {
                 "foot" -> roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT)
                 "bike" -> roadManager.setMean(OSRMRoadManager.MEAN_BY_BIKE)
@@ -218,14 +200,13 @@ class HotelFragment : Fragment() {
                 }
             } catch (e: Exception) {
                 Log.e("RoadBuildingError", "Error building road: ${e.message}")
-// Hantera fel här
+                // Hantera fel här
             }
         }
     }
 
     private fun showTransportSelectionDialog(endPoint: GeoPoint) {
         val transports = arrayOf("Foot", "Bike", "Car") // Lägg till fler alternativ om det behövs
-
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Choose Transportation")
             .setItems(transports) { _, which ->

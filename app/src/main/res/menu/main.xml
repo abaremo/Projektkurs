@@ -26,6 +26,4 @@
         android:title="@string/locate_me"
         android:icon="@drawable/ic_locate_me" />
 
-
-
 </menu>

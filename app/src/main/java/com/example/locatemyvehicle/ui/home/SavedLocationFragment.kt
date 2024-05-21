@@ -20,8 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.locatemyvehicle.R
 import com.example.locatemyvehicle.databinding.FragmentSavedLocationBinding
 
-
-
 class SavedLocationFragment : Fragment() {
     private lateinit var binding: FragmentSavedLocationBinding
     private val tempCoordinatesList = mutableListOf<String>()
@@ -42,15 +40,11 @@ class SavedLocationFragment : Fragment() {
         val recyclerView = binding.recyclerViewSavedLocations
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-       // val savedLocations = viewModel.savedLocationsList
-
         // Hämta SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("SavedLocations", Context.MODE_PRIVATE)
 
-
         // Kontrollera om adaptern redan är instansierad innan du initialiserar en ny
         if (adapter == null) {
-            //val savedLocations = viewModel.savedLocationsList
             // Skapa adaptern och tilldela den till RecyclerView med klicklyssnare
             adapter = SavedLocationsAdapter(
                 tempCoordinatesList,
@@ -84,7 +78,6 @@ class SavedLocationFragment : Fragment() {
             recyclerView.adapter = adapter
         }
 
-
         // Hämta sparade platser vid fragmentets skapande
         loadSavedLocations()
 
@@ -95,7 +88,6 @@ class SavedLocationFragment : Fragment() {
         btnClear.setOnClickListener {
             clearHistory()
         }
-
 
         binding.btnSaveLocationName.setOnClickListener {
             val locationName = binding.etLocationName.text.toString()
@@ -113,7 +105,6 @@ class SavedLocationFragment : Fragment() {
 
                 // Lägg bara till namnet i savedLocationNames
                 savedLocationNames.add(locationName)
-
 
                 //binding.recyclerViewSavedLocations.adapter = adapter
                 adapter?.notifyDataSetChanged()
@@ -139,10 +130,8 @@ class SavedLocationFragment : Fragment() {
             val coordinatesString = uniqueLocations.joinToString(separator = "\n")
             binding.tvSavedLocations.text = coordinatesString
         }
-
         return binding.root
     }
-
 
     // Funktion för att ta bort en sparad plats
     private fun removeLocation(position: Int) {
@@ -150,7 +139,6 @@ class SavedLocationFragment : Fragment() {
         adapter?.notifyDataSetChanged()
         saveLocationsToSharedPreferences() // Uppdatera SharedPreferences efter borttagning
     }
-
 
     // Funktion för att visa platsen på kartan i HomeFragment
     private fun showLocationOnMap(location: String) {
@@ -161,7 +149,6 @@ class SavedLocationFragment : Fragment() {
         // Navigera till HomeFragment och skicka med platsinformationen
         findNavController().navigate(R.id.action_savedlocationFragment_to_homeFragment, bundle)
     }
-
 
     // Metod för att spara platserna till SharedPreferences
     private fun saveLocationsToSharedPreferences() {
@@ -181,10 +168,8 @@ class SavedLocationFragment : Fragment() {
             val name = location.substringBefore(" - ")
             savedLocationNames.add(name)
         }
-
         adapter?.notifyDataSetChanged()
     }
-
 
     // Metod för att rensa historiken på sparade platser
     private fun clearHistory() {
@@ -208,5 +193,4 @@ class SavedLocationFragment : Fragment() {
             // Använd imageBitmap som thumbnail
         }
     }
-
 }

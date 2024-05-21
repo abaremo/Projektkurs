@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 
 class SharedViewModel : ViewModel() {
     fun removeSavedLocation(position: Int) {
-
     }
 
     val savedLocationsList = mutableListOf<String>()

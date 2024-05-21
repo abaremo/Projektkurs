@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         tools:context=".ui.parkingsings.ParkingSignsFragment">
 
-
         <View
             android:id="@+id/top_view"
             android:layout_width="match_parent"
@@ -22,7 +21,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <TextView
             android:id="@+id/NearbyTitle"
@@ -39,14 +37,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.453">
-
         </TextView>
 
         <ImageView
             android:id="@+id/imgPTid"
             android:layout_width="131dp"
             android:layout_height="72dp"
-
             android:layout_marginTop="14dp"
             android:layout_marginEnd="58dp"
             android:layout_marginBottom="12dp"
@@ -72,7 +68,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgPTid">
-
         </TextView>
 
         <ImageView
@@ -86,7 +81,6 @@
             app:layout_constraintBottom_toTopOf="@+id/tvPav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_view">
-
         </ImageView>
 
         <TextView
@@ -104,7 +98,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvP2h"
             app:layout_constraintTop_toBottomOf="@+id/imgPav">
-
         </TextView>
 
         <ImageView
@@ -132,7 +125,6 @@
             app:layout_constraintEnd_toStartOf="@+id/tvPdatum"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgPförbud">
-
         </TextView>
 
         <ImageView
@@ -161,7 +153,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvPförbud">
-
         </TextView>
 
         <ImageView
@@ -206,7 +197,6 @@ under den perioden Under resten av dygnet är parkering tillåten kostnadsfritt"
             app:layout_constraintEnd_toStartOf="@+id/tvPav"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgP2h">
-
         </TextView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
